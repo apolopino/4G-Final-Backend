@@ -1,6 +1,6 @@
 import os
 from flask_admin import Admin
-from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, ToDo
+from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, TodoLog
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -16,7 +16,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Rutina, db.session))
     admin.add_view(ModelView(TemplateTodo, db.session))
     admin.add_view(ModelView(Recetas, db.session))
-    admin.add_view(ModelView(ToDo, db.session))
+    admin.add_view(ModelView(TodoLog, db.session))
 
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))
