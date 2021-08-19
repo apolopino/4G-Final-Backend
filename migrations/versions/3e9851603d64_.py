@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 528afde3a65b
+Revision ID: 3e9851603d64
 Revises: 
-Create Date: 2021-08-19 17:08:19.110666
+Create Date: 2021-08-19 19:54:52.771738
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '528afde3a65b'
+revision = '3e9851603d64'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,11 +66,7 @@ def upgrade():
     sa.UniqueConstraint('descripcion'),
     sa.UniqueConstraint('descripcion'),
     sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('name'),
-    sa.UniqueConstraint('urlFoto'),
-    sa.UniqueConstraint('urlFoto'),
-    sa.UniqueConstraint('urlVideo'),
-    sa.UniqueConstraint('urlVideo')
+    sa.UniqueConstraint('name')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -86,9 +82,9 @@ def upgrade():
     op.create_table('dias',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('numeroDia', sa.Integer(), nullable=False),
-    sa.Column('idDesafio', sa.Integer(), nullable=False),
-    sa.Column('idReceta', sa.Integer(), nullable=False),
-    sa.Column('idRutina', sa.Integer(), nullable=False),
+    sa.Column('idDesafio', sa.Integer(), nullable=True),
+    sa.Column('idReceta', sa.Integer(), nullable=True),
+    sa.Column('idRutina', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['idDesafio'], ['desafios.id'], ),
     sa.ForeignKeyConstraint(['idReceta'], ['recetas.id'], ),
     sa.ForeignKeyConstraint(['idRutina'], ['rutina.id'], ),
