@@ -54,11 +54,10 @@ def get_user():
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user_id(id):
-    user = User.query.get(1)
+    user = User.query.get(id)
     print(user)
     # user = list(map(lambda x: x.serialize(), user))
     response_body = {
-        "msg": "Hello, this is your GET /dias response ",
         "usuario": user
     }
     return jsonify(response_body), 200
