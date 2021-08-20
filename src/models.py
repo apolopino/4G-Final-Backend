@@ -18,7 +18,7 @@ class TodoLog(db.Model):
             "id": self.id,
             "date": self.date,
             "done": self.done,
-            "desafio": self.desafioID
+            "desafio": self.desafios.nombreDesafio
         }
 
 class Recetas(db.Model):
