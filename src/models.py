@@ -94,7 +94,9 @@ class Dias(db.Model):
         return {
             "id": self.id,
             "numeroDia": self.numeroDia,
-            "idDesafio": self.idDesafio
+            "idDesafio": self.idDesafio,
+            "idReceta": self.idReceta,
+            "idRutina": self.idRutina
         }
 
 class Desafios(db.Model):

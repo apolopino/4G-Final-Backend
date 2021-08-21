@@ -39,6 +39,112 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+@app.route('/todolog', methods=['GET'])
+def get_todolog():
+    todolog = TodoLog.query.all()
+    todolog = list(map(lambda x: x.serialize(), todolog))
+    response_body = {
+        "msg": "Hello, this is your GET /todolog response ",
+        "todolog": todolog
+    }
+    return jsonify(response_body), 200
+
+@app.route('/recetas', methods=['GET'])
+def get_recetas():
+    recetas = Recetas.query.all()
+    recetas = list(map(lambda x: x.serialize(), recetas))
+    response_body = {
+        "msg": "Hello, this is your GET /recetas response ",
+        "recetas": recetas
+    }
+    return jsonify(response_body), 200
+
+@app.route('/templatetodo', methods=['GET'])
+def get_templatetodo():
+    templatetodo = TemplateTodo.query.all()
+    templatetodo = list(map(lambda x: x.serialize(), templatetodo))
+    response_body = {
+        "msg": "Hello, this is your GET /templatetodo response ",
+        "templatetodo": templatetodo
+    }
+    return jsonify(response_body), 200
+
+@app.route('/rutina', methods=['POST'])
+#@jwt_required()
+def post_rutina():
+    body = request.get_json()
+    rutina = Rutina(
+        name=body['name'],
+        descripcion=body['descripcion'],
+        urlVideo=body['urlVideo'],
+        urlFoto=body['urlFoto']
+        )
+    db.session.add(rutina)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /rutina response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/rutina', methods=['GET'])
+def get_rutina():
+    rutina = Rutina.query.all()
+    rutina = list(map(lambda x: x.serialize(), rutina))
+    response_body = {
+        "msg": "Hello, this is your GET /rutina response ",
+        "rutina": rutina
+    }
+    return jsonify(response_body), 200
+
+@app.route('/dias', methods=['POST'])
+#@jwt_required()
+def post_dias():
+    body = request.get_json()
+    dias = Dias(
+        numeroDia=body['numeroDia'],
+        idDesafio=body['idDesafio'],
+        idReceta=body['idReceta'],
+        idRutina=body['idRutina']
+        )
+    db.session.add(dias)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /dias response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/dias', methods=['GET'])
+def get_dias():
+    dias = Dias.query.all()
+    dias = list(map(lambda x: x.serialize(), dias))
+    response_body = {
+        "msg": "Hello, this is your GET /dias response ",
+        "dias": dias
+    }
+    return jsonify(response_body), 200
+
+@app.route('/desafios', methods=['POST'])
+#@jwt_required()
+def post_desafios():
+    body = request.get_json()
+    desafios = Desafios(
+        nombreDesafio=body['nombreDesafio'],
+        descripcionDesafio=body['descripcionDesafio'],
+        feat1=body['feat1'],
+        feat2=body['feat2'],
+        feat3=body['feat3'],
+        photoURL=body['photoURL']
+        )
+    db.session.add(desafios)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /desafios response "
+    }
+
+    return jsonify(response_body), 200
+
 @app.route('/desafios', methods=['GET'])
 def get_desafios():
     desafios = Desafios.query.all()
@@ -49,6 +155,8 @@ def get_desafios():
         "desafios": desafios
     }
     return jsonify(response_body), 200
+
+
 
 @app.route('/users', methods=['GET'])
 #@jwt_required()
