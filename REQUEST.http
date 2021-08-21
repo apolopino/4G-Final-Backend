@@ -48,3 +48,41 @@ Content-Type: application/json
 
 #en este archivo deberian ir todas las formas 
 #de inyectar cada uno de los endpoints
+
+### DESAFIO POST
+POST {{host}}/desafios
+Content-Type: application/json
+
+{
+      "descripcionDesafio": "Modo Zen",
+      "dias del desafio": [],
+      "feat1": "7",
+      "feat2": "8",
+      "feat3": "9",
+      "nombreDesafio": "Desafio 3",
+      "photoURL": "https://ganar-ganar.mx/wp-content/uploads/2020/05/zen.jpg"
+    }
+
+#los campos son en su mayoria unicos
+
+### DIAS POST
+POST {{host}}/dias
+Content-Type: application/json
+
+{
+      "idDesafio": null,
+      "idReceta": null,
+      "idRutina": null,
+      "numeroDia": 3
+    }
+
+### RUTINA POST
+POST {{host}}/rutina
+Content-Type: application/json
+
+{
+      "descripcion": "ejercicios enfocados a fortalecer piernas",
+      "name": "Trabajo de piernas",
+      "urlFoto": "https://i.ytimg.com/vi/A9OpakdHZzE/maxresdefault.jpg",
+      "urlVideo": "https://www.youtube.com/watch?v=EecYrKhgAYI"
+    }    
