@@ -6,20 +6,29 @@ class TodoUsuario(db.Model):
     __tablename__ = 'todousuario'
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
+    # todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
     date = db.Column(db.Date, nullable=True)
     done = db.Column(db.Boolean, nullable=True)
+    to_dos_template = db.relationship('TemplateTodo', backref='todousuario', lazy=True)
 
     def __repr__(self):
         # return '<Todo Usuario %r>' % self.id
         return 'To-do usuario %r' % self.id
 
     def serialize(self):
+        # # if self.todoID != None:
+        #     return {
+        #         "id": self.id,
+        #         "date": self.date,
+        #         "done": self.done,
+        #         "To-do item": self.templatetodo.name
+        #     }
+        # else:
         return {
             "id": self.id,
             "date": self.date,
             "done": self.done,
-            "To-do item": self.templatetodo.name
+            "To-do item": "None"
         }
 
 class Recetas(db.Model):
@@ -49,7 +58,8 @@ class TemplateTodo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     idDia = db.Column(db.Integer, db.ForeignKey('dias.id'), nullable=True)
-    todoUsuario_relation = db.relationship('TodoUsuario', lazy=True)
+    # todoUsuario_relation = db.relationship('TodoUsuario', backref="templatetodo", lazy=True)
+    todoUsuario = db.Column(db.Integer, db.ForeignKey('todousuario.id'), nullable=True)
 
     def __repr__(self):
         # return '<TemplateTodo %r>' % self.name
@@ -101,7 +111,9 @@ class Dias(db.Model):
             "id": self.id,
             "numeroDia": self.numeroDia,
             "idDesafio": self.idDesafio,
-            "to-dos del dia": self.getToDos()
+            "to-dos del dia": self.getToDos(),
+            "receta del dia": self.recetas.name,
+            "rutina del dia": self.rutina.name
         }
     
     def getToDos(self):
@@ -158,4 +170,4 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     def getTodoUsuario(self):
-        return list(map(lambda todo : todo.serialize(), self.todoUsuario_relation))
+        return list(map(lambda todo : todo.serialize(), self.to_dos_del_usuario))
