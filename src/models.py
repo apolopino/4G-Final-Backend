@@ -9,7 +9,6 @@ class TodoLog(db.Model):
     desafioID = db.Column(db.Integer, db.ForeignKey('desafios.id'), nullable=True)
     date = db.Column(db.Date, nullable=True)
     done = db.Column(db.Boolean, nullable=True)
-    
 
     def __repr__(self):
         return '<TodoLog %r>' % self.id
@@ -18,7 +17,8 @@ class TodoLog(db.Model):
         return {
             "id": self.id,
             "date": self.date,
-            "done": self.done
+            "done": self.done,
+            "desafio": self.desafios.nombreDesafio
         }
 
 class Recetas(db.Model):
@@ -142,6 +142,9 @@ class User(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
-            "email": self.email
+            "email": self.email,
+            "to-do log": self.getTodoLog()
             # do not serialize the password, its a security breach
         }
+    def getTodoLog(self):
+        return list(map(lambda todo : todo.serialize(), self.todoLog_relation))
