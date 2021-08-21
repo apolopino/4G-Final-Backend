@@ -12,9 +12,9 @@ POST {{host}}/register
 Content-Type: application/json
 
 {
-    "email":"conejito@hola.cl",
-    "nombre":"Conejito",
-    "password":"sdfs"
+    "email":"conejitoreload@hola.cl",
+    "nombre":"Conejito 2.0",
+    "password":"conejito"
 }
 
 # {
@@ -48,3 +48,74 @@ Content-Type: application/json
 
 #en este archivo deberian ir todas las formas 
 #de inyectar cada uno de los endpoints
+
+### DESAFIO POST
+POST {{host}}/desafios
+Content-Type: application/json
+
+{
+    "descripcionDesafio": "Leer mas",
+    "dias del desafio": [],
+    "feat1": "10",
+    "feat2": "11",
+    "feat3": "12",
+    "nombreDesafio": "Desafio 4",
+    "photoURL": "http://cdn2.dineroenimagen.com/media/dinero/styles/xlarge/public/images/2019/12/knowledge-10520101920.jpg"
+    }
+
+#los campos son en su mayoria unicos
+
+### DIAS POST
+POST {{host}}/dias
+Content-Type: application/json
+
+{
+    "idDesafio": null,
+    "idReceta": null,
+    "idRutina": null,
+    "numeroDia": 4
+    }
+
+### RUTINA POST
+POST {{host}}/rutina
+Content-Type: application/json
+
+{
+    "descripcion": "Recomendaciones para leer mas",
+    "name": "Como leer mas",
+    "urlFoto": "https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg",
+    "urlVideo": "https://m.elmostrador.cl/cultura/2020/08/20/diez-trucos-para-leer-mas/"
+    }    
+
+### TEMPLATETODO POST
+POST {{host}}/templatetodo
+Content-Type: application/json
+
+{
+    "name": "Template To Do3",
+	"idDia": null
+    }    
+
+### RECETAS POST
+POST {{host}}/recetas
+Content-Type: application/json
+
+{
+    "descripcion": "dga",
+    "name": "Receta 3",
+    "urlFoto": "sdga",
+    "urlVideo": "asdga"
+    }    
+
+#los campos son en su mayoria unicos    
+
+### TODOLOG POST
+POST {{host}}/todolog
+Content-Type: application/json
+
+{
+    "date": null,
+	"desafioID": null,
+    "done": false,
+	"userID": null
+    }

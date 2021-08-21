@@ -40,6 +40,164 @@ def sitemap():
     return generate_sitemap(app)
 
 #endpoint para mostrar los desafios
+@app.route('/todolog', methods=['POST'])
+#@jwt_required()
+def post_todolog():
+    body = request.get_json()
+    todolog = TodoLog(
+        date=body['date'],
+        done=body['done'],
+        userID=body['userID'],
+        desafioID=body['desafioID']
+        )
+    db.session.add(todolog)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /todolog response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/todolog', methods=['GET'])
+def get_todolog():
+    todolog = TodoLog.query.all()
+    todolog = list(map(lambda x: x.serialize(), todolog))
+    response_body = {
+        "msg": "Hello, this is your GET /todolog response ",
+        "todolog": todolog
+    }
+    return jsonify(response_body), 200
+
+@app.route('/recetas', methods=['POST'])
+#@jwt_required()
+def post_recetas():
+    body = request.get_json()
+    recetas = Recetas(
+        name=body['name'],
+        descripcion=body['descripcion'],
+        urlVideo=body['urlVideo'],
+        urlFoto=body['urlFoto']      
+        )
+    db.session.add(recetas)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /recetas response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/recetas', methods=['GET'])
+def get_recetas():
+    recetas = Recetas.query.all()
+    recetas = list(map(lambda x: x.serialize(), recetas))
+    response_body = {
+        "msg": "Hello, this is your GET /recetas response ",
+        "recetas": recetas
+    }
+    return jsonify(response_body), 200
+
+@app.route('/templatetodo', methods=['POST'])
+#@jwt_required()
+def post_templatetodo():
+    body = request.get_json()
+    templatetodo = TemplateTodo(
+        name=body['name'],
+        idDia=body['idDia']
+        )
+    db.session.add(templatetodo)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /templatetodo response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/templatetodo', methods=['GET'])
+def get_templatetodo():
+    templatetodo = TemplateTodo.query.all()
+    templatetodo = list(map(lambda x: x.serialize(), templatetodo))
+    response_body = {
+        "msg": "Hello, this is your GET /templatetodo response ",
+        "templatetodo": templatetodo
+    }
+    return jsonify(response_body), 200
+
+@app.route('/rutina', methods=['POST'])
+#@jwt_required()
+def post_rutina():
+    body = request.get_json()
+    rutina = Rutina(
+        name=body['name'],
+        descripcion=body['descripcion'],
+        urlVideo=body['urlVideo'],
+        urlFoto=body['urlFoto']
+        )
+    db.session.add(rutina)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /rutina response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/rutina', methods=['GET'])
+def get_rutina():
+    rutina = Rutina.query.all()
+    rutina = list(map(lambda x: x.serialize(), rutina))
+    response_body = {
+        "msg": "Hello, this is your GET /rutina response ",
+        "rutina": rutina
+    }
+    return jsonify(response_body), 200
+
+@app.route('/dias', methods=['POST'])
+#@jwt_required()
+def post_dias():
+    body = request.get_json()
+    dias = Dias(
+        numeroDia=body['numeroDia'],
+        idDesafio=body['idDesafio'],
+        idReceta=body['idReceta'],
+        idRutina=body['idRutina']
+        )
+    db.session.add(dias)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /dias response "
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/dias', methods=['GET'])
+def get_dias():
+    dias = Dias.query.all()
+    dias = list(map(lambda x: x.serialize(), dias))
+    response_body = {
+        "msg": "Hello, this is your GET /dias response ",
+        "dias": dias
+    }
+    return jsonify(response_body), 200
+
+@app.route('/desafios', methods=['POST'])
+#@jwt_required()
+def post_desafios():
+    body = request.get_json()
+    desafios = Desafios(
+        nombreDesafio=body['nombreDesafio'],
+        descripcionDesafio=body['descripcionDesafio'],
+        feat1=body['feat1'],
+        feat2=body['feat2'],
+        feat3=body['feat3'],
+        photoURL=body['photoURL']
+        )
+    db.session.add(desafios)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /desafios response "
+    }
+
+    return jsonify(response_body), 200
+
 @app.route('/desafios', methods=['GET'])
 def get_desafios():
     desafios = Desafios.query.all()
@@ -50,6 +208,7 @@ def get_desafios():
         "desafios": desafios
     }
     return jsonify(response_body), 200
+
 
 #endpoint para mostrar los usuarios
 @app.route('/users', methods=['GET'])
@@ -66,6 +225,7 @@ def get_user():
 
 # endpoint para mostrar un usuario particular
 @app.route('/users/<int:id>', methods=['GET'])
+#@jwt_required()
 def get_user_id(id):
     user = User.query.filter_by(id=id).first()
     print(user)
@@ -110,19 +270,21 @@ def delete_user(id):
     return jsonify(response_body), 200    
 
 
-@app.route('/users', methods=['POST'])
-#@jwt_required()
-def post_users():
-    body = request.get_json()
-    print(body)
-    user = User(email=body['email'],nombre=body['nombre'],password=body['password'])
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "Hello, this is your POST /user response "
-    }
+#ya no es necesario este endpoint, puesto si hacemos POST para users, deberia ser con hash
+# @app.route('/users', methods=['POST'])
+# @jwt_required()
+# def post_users():
+#     body = request.get_json()
+#     print(body)
+#     user = User(email=body['email'],nombre=body['nombre'],password=body['password'])
+#     db.session.add(user)
+#     db.session.commit()
+#     response_body = {
+#         "msg": "Hello, this is your POST /user response "
+#     }
 
-    return jsonify(response_body), 200
+
+#     return jsonify(response_body), 200
 
 #ejemplo de breathcode sobre como conseguir un token para un usuario ya creado, como el /hash de ejemplo de Manu
 # @app.route('/token', methods=['POST'])

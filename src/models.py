@@ -28,7 +28,9 @@ class TodoUsuario(db.Model):
             "id": self.id,
             "date": self.date,
             "done": self.done,
-            "To-do item": "None"
+#            "desafio": self.desafios.nombreDesafio,
+            "userID": self.userID,
+            "desafioID": self.desafioID
         }
 
 class Recetas(db.Model):
@@ -69,6 +71,7 @@ class TemplateTodo(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "idDia": self.idDia
         }
 
 class Rutina(db.Model):
@@ -112,8 +115,9 @@ class Dias(db.Model):
             "numeroDia": self.numeroDia,
             "idDesafio": self.idDesafio,
             "to-dos del dia": self.getToDos(),
-            "receta del dia": self.recetas.name,
-            "rutina del dia": self.rutina.name
+            "idReceta": self.idReceta,
+            "idRutina": self.idRutina
+
         }
     
     def getToDos(self):
