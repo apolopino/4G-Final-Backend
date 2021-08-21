@@ -6,7 +6,7 @@ class TodoLog(db.Model):
     __tablename__ = 'todolog'
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    desafioID = db.Column(db.Integer, db.ForeignKey('desafios.id'), nullable=True)
+    todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
     date = db.Column(db.Date, nullable=True)
     done = db.Column(db.Boolean, nullable=True)
 
@@ -47,6 +47,7 @@ class TemplateTodo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     idDia = db.Column(db.Integer, db.ForeignKey('dias.id'), nullable=True)
+    todoLog_relation = db.relationship('TodoLog', lazy=True)
 
     def __repr__(self):
         return '<TemplateTodo %r>' % self.name
@@ -106,7 +107,6 @@ class Desafios(db.Model):
     feat2 = db.Column(db.String(120), unique=True, nullable=False)
     feat3 = db.Column(db.String(120), unique=True, nullable=False)
     photoURL = db.Column(db.String(250), unique=True, nullable=False)
-    todolog_relationship = db.relationship('TodoLog', backref='desafios', lazy=True)
     dias_rel = db.relationship('Dias', backref='desafios', lazy=True)
     
     def __repr__(self):
