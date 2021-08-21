@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3e9851603d64
+Revision ID: c541a224fe37
 Revises: 
-Create Date: 2021-08-19 19:54:52.771738
+Create Date: 2021-08-21 14:45:37.642955
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3e9851603d64'
+revision = 'c541a224fe37'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,16 +28,10 @@ def upgrade():
     sa.Column('photoURL', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('descripcionDesafio'),
-    sa.UniqueConstraint('descripcionDesafio'),
-    sa.UniqueConstraint('feat1'),
     sa.UniqueConstraint('feat1'),
     sa.UniqueConstraint('feat2'),
-    sa.UniqueConstraint('feat2'),
-    sa.UniqueConstraint('feat3'),
     sa.UniqueConstraint('feat3'),
     sa.UniqueConstraint('nombreDesafio'),
-    sa.UniqueConstraint('nombreDesafio'),
-    sa.UniqueConstraint('photoURL'),
     sa.UniqueConstraint('photoURL')
     )
     op.create_table('recetas',
@@ -48,12 +42,8 @@ def upgrade():
     sa.Column('urlFoto', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('descripcion'),
-    sa.UniqueConstraint('descripcion'),
-    sa.UniqueConstraint('name'),
     sa.UniqueConstraint('name'),
     sa.UniqueConstraint('urlFoto'),
-    sa.UniqueConstraint('urlFoto'),
-    sa.UniqueConstraint('urlVideo'),
     sa.UniqueConstraint('urlVideo')
     )
     op.create_table('rutina',
@@ -64,19 +54,15 @@ def upgrade():
     sa.Column('urlFoto', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('descripcion'),
-    sa.UniqueConstraint('descripcion'),
-    sa.UniqueConstraint('name'),
     sa.UniqueConstraint('name')
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('nombre', sa.String(length=80), nullable=False),
-    sa.Column('password', sa.String(length=80), nullable=False),
+    sa.Column('password', sa.String(length=9000), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('nombre'),
     sa.UniqueConstraint('nombre')
     )
     op.create_table('dias',
@@ -106,7 +92,6 @@ def upgrade():
     sa.Column('idDia', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['idDia'], ['dias.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name'),
     sa.UniqueConstraint('name')
     )
     # ### end Alembic commands ###

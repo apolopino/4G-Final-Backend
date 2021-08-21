@@ -12,10 +12,9 @@ POST {{host}}/register
 Content-Type: application/json
 
 {
-    "email":"hola@conejito.cl",
-    "nombre":"conejito",
-    "password":"1234",
-
+    "email":"conejito@hola.cl",
+    "nombre":"Conejito",
+    "password":"sdfs"
 }
 
 # {
@@ -33,8 +32,8 @@ POST {{host}}/login
 Content-Type: application/json
 
 {
-    "email":"hola@ortega.cl",
-    "password":"87654321"
+    "email":"conejito@hola.cl",
+    "password":"sdfs"
 }
 
 ###

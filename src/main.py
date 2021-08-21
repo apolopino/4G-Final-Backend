@@ -119,48 +119,53 @@ def post_users():
 
     return jsonify(response_body), 200
 
-@app.route('/token', methods=['POST'])
-def create_token():
-    nombre = request.json.get("nombre", None)
-    password = request.json.get("password", None)
-    # Query your database for username and password
-    user = User.filter.query(nombre=nombre, password=password).first()
-    if user is None:
-        # the user was not found on the database
-        return jsonify({"msg": "Bad username or password"}), 401
+#ejemplo de breathcode sobre como conseguir un token para un usuario ya creado, como el /hash de ejemplo de Manu
+# @app.route('/token', methods=['POST'])
+# def create_token():
+#     nombre = request.json.get("nombre", None)
+#     password = request.json.get("password", None)
+#     # Query your database for username and password
+#     user = User.filter.query(nombre=nombre, password=password).first()
+#     if user is None:
+#         # the user was not found on the database
+#         return jsonify({"msg": "Bad username or password"}), 401
     
-    # create a new token with the user id inside
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id })
+#     # create a new token with the user id inside
+#     access_token = create_access_token(identity=user.id)
+#     return jsonify({ "token": access_token, "user_id": user.id })
 
-@app.route('/protected', methods=['GET'])
-#@jwt_required()
-def protected():
-    # Access the identity of the current user with get_jwt_identity
-    current_user_id = get_jwt_identity()
-    user = User.filter.get(current_user_id)
+#ruta de ejemplo de breathcode sobre como proteger una ruta a traves del jwt_required()
+# @app.route('/protected', methods=['GET'])
+# #@jwt_required()
+# def protected():
+#     # Access the identity of the current user with get_jwt_identity
+#     current_user_id = get_jwt_identity()
+#     user = User.filter.get(current_user_id)
     
-    return jsonify({"id": user.id, "nombre": user.nombre }), 200
+#     return jsonify({"id": user.id, "nombre": user.nombre }), 200
 
-@app.route('/hash', methods=['GET', 'POST'])
-def handle_hash():
-    # genera token con un hash con expiracion
-    expiracion = datetime.timedelta(days=1)
-    access_token = create_access_token(identity='blbala@gmail.com', expires_delta=expiracion)
-    #aqui se genera el token
+#ruta de ejemplo visto en clases JWT sobre como hashear una registro com campos de usuario ya existente
+#NO SE USA, implicaria que el usuario se registro sin que su password quedara protegida
+#ejemplo de manejo de expiracion
+# @app.route('/hash', methods=['GET', 'POST'])
+# def handle_hash():
+#     # genera token con un hash con expiracion
+#     expiracion = datetime.timedelta(days=1)
+#     access_token = create_access_token(identity='blbala@gmail.com', expires_delta=expiracion)
+#     #aqui se genera el token
       
-    #crear password
-    password = '123456'
-    password =generate_password_hash(password, method='sha256')
-    #genera un password con hash con la libreria werkzeug.security y el algoritmo sha256
+#     #crear password
+#     password = '123456'
+#     password =generate_password_hash(password, method='sha256')
+#     #genera un password con hash con la libreria werkzeug.security y el algoritmo sha256
 
-    responde_token = {
-        "users":"prueba", 
-        "token": access_token,
-        "password": password
-    }
+#     responde_token = {
+#         "users":"prueba", 
+#         "token": access_token,
+#         "password": password
+#     }
 
-    return jsonify(responde_token), 200
+#     return jsonify(responde_token), 200
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -207,23 +212,25 @@ def login():
 
 @app.route('/register', methods=['POST'])
 def register():
- if request.method == 'POST':
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    nombre = request.json.get("nombre", None)
     
+    request_data = request.get_json()
+
+    email = request_data['email']
+    password = request_data['password']
+    nombre = request_data['nombre']
+        
     if not email:
         return "Email required", 401
-    nombre = request.json.get("nombre", None)
     if not nombre:
         return "Nombre required", 401
-    password = request.json.get("password", None)
     if not password:
         return "Password required", 401
 
+    
     email_query = User.query.filter_by(email=email).first()
     if email_query:
         return "This email has been already taken", 401
+    
     
     user = User()
     user.email = email
@@ -231,7 +238,7 @@ def register():
     user.nombre = nombre
     hashed_password=generate_password_hash(password, method='sha256')
 
-    nombre.password = hashed_password
+    user.password = hashed_password
     print(user)
     db.session.add(user)
     db.session.commit()
@@ -239,12 +246,11 @@ def register():
     response = {
         "msg": "Added successfully",
         "nombre": nombre,
-        "pasword": hashed_password
+        "password": hashed_password
     }
     return jsonify(response), 201
 #cuando creo un recurso el jsonify es 201
 
-    return jsonify(response_body), 200
 
 #@app.route('/user', methods=['GET'])
 #def handle_hello():

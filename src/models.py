@@ -132,7 +132,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.String(9000), unique=False, nullable=False)
     todoLog_relation = db.relationship('TodoLog', backref="user", lazy=True)
 
     def __repr__(self):
