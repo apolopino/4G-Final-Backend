@@ -11,7 +11,8 @@ class TodoUsuario(db.Model):
     done = db.Column(db.Boolean, nullable=True)
 
     def __repr__(self):
-        return '<Todo Usuario %r>' % self.id
+        # return '<Todo Usuario %r>' % self.id
+        return 'To-do usuario %r' % self.id
 
     def serialize(self):
         return {
@@ -28,10 +29,11 @@ class Recetas(db.Model):
     descripcion = db.Column(db.String(250), unique=True, nullable=False)
     urlVideo = db.Column(db.String(250), unique=True, nullable=False)
     urlFoto = db.Column(db.String(250), unique=True, nullable=False) 
-    dias_relation = db.relationship('Dias', backref="recetas", lazy=True) 
+    dia_a_la_que_pertenece = db.relationship('Dias', backref="recetas", lazy=True) 
 
     def __repr__(self):
-        return '<Recetas %r>' % self.name
+        # return '<Recetas %r>' % self.name
+        return 'Receta %r' % self.name
 
     def serialize(self):
         return {
@@ -50,7 +52,8 @@ class TemplateTodo(db.Model):
     todoUsuario_relation = db.relationship('TodoUsuario', lazy=True)
 
     def __repr__(self):
-        return '<TemplateTodo %r>' % self.name
+        # return '<TemplateTodo %r>' % self.name
+        return 'To-do (Template) %r' % self.name
 
     def serialize(self):
         return {
@@ -65,10 +68,11 @@ class Rutina(db.Model):
     descripcion = db.Column(db.String(250), unique=True, nullable=False)
     urlVideo = db.Column(db.String(250), unique=False, nullable=False)
     urlFoto = db.Column(db.String(250), unique=False, nullable=False) 
-    dias_relation = db.relationship('Dias', backref="rutina", lazy=True)
+    dia_a_la_que_pertenece = db.relationship('Dias', backref="rutina", lazy=True)
 
     def __repr__(self):
-        return '<Rutina %r>' % self.name
+        # return '<Rutina %r>' % self.name
+        return 'Rutina %r' % self.name
 
     def serialize(self):
         return {
@@ -86,10 +90,11 @@ class Dias(db.Model):
     idDesafio = db.Column(db.ForeignKey('desafios.id'), nullable=True)
     idReceta = db.Column(db.Integer, db.ForeignKey('recetas.id'), nullable=True)
     idRutina = db.Column(db.Integer, db.ForeignKey('rutina.id'), nullable=True)
-    todo_t_rel = db.relationship('TemplateTodo', backref='dias', lazy=True)
+    todo_template_del_dia = db.relationship('TemplateTodo', backref='dias', lazy=True)
 
     def __repr__(self):
-        return '<Dias %r>' % self.numeroDia
+        # return '<Dias %r>' % self.numeroDia
+        return 'Dia %r' % self.numeroDia
 
     def serialize(self):
         return {
@@ -107,10 +112,11 @@ class Desafios(db.Model):
     feat2 = db.Column(db.String(120), unique=True, nullable=False)
     feat3 = db.Column(db.String(120), unique=True, nullable=False)
     photoURL = db.Column(db.String(250), unique=True, nullable=False)
-    dias_rel = db.relationship('Dias', backref='desafios', lazy=True)
+    dias_del_desafio = db.relationship('Dias', backref='desafios', lazy=True)
     
     def __repr__(self):
-        return '<Desafios %r>' % self.nombreDesafio
+        # return '<Desafios %r>' % self.nombreDesafio
+        return self.nombreDesafio
 
     def serialize(self):
         return {
@@ -133,10 +139,11 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(9000), unique=False, nullable=False)
-    todoUsuario_relation = db.relationship('TodoUsuario', backref="user", lazy=True)
+    to_dos_del_usuario = db.relationship('TodoUsuario', backref="user", lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.nombre
+        # return '<User %r>' % self.nombre
+        return 'Usuario: %r' % self.email
 
     def serialize(self):
         return {
