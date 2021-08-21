@@ -1,0 +1,50 @@
+@host=https://3001-bronze-impala-vib65y6n.ws-us16.gitpod.io
+#puedo definir variables, en este caso host
+#para luego definir los metodos que quiero usar
+
+### Creación de hash
+POST {{host}}/hash
+Content-Type: application/json
+#aqui estoy llamando al endpoint hash de main.py 
+
+### REGISTER
+POST {{host}}/register
+Content-Type: application/json
+
+{
+    "email":"conejito@hola.cl",
+    "nombre":"Conejito",
+    "password":"sdfs"
+}
+
+# {
+#     "email":"la@guagua.cl",
+#     "nombre":"guagua",
+#     "password":"87654321"
+# }
+
+
+
+
+###  @AUTH
+# @name authSession
+POST {{host}}/login
+Content-Type: application/json
+
+{
+    "email":"conejito@hola.cl",
+    "password":"sdfs"
+}
+
+###
+@token = {{authSession.response.body.$.token}}
+
+
+
+### USER
+GET {{host}}/users
+Content-Type: application/json
+#Authorization: Bearer {{token}}
+
+#en este archivo deberian ir todas las formas 
+#de inyectar cada uno de los endpoints
