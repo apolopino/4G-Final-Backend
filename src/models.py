@@ -2,8 +2,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class TodoLog(db.Model):
-    __tablename__ = 'todolog'
+class TodoUsuario(db.Model):
+    __tablename__ = 'todousuario'
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
@@ -11,14 +11,14 @@ class TodoLog(db.Model):
     done = db.Column(db.Boolean, nullable=True)
 
     def __repr__(self):
-        return '<TodoLog %r>' % self.id
+        return '<Todo Usuario %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
             "date": self.date,
             "done": self.done,
-            "desafio": self.desafios.nombreDesafio
+            "To-do item": self.templatetodo.name
         }
 
 class Recetas(db.Model):
@@ -47,7 +47,7 @@ class TemplateTodo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     idDia = db.Column(db.Integer, db.ForeignKey('dias.id'), nullable=True)
-    todoLog_relation = db.relationship('TodoLog', lazy=True)
+    todoUsuario_relation = db.relationship('TodoUsuario', lazy=True)
 
     def __repr__(self):
         return '<TemplateTodo %r>' % self.name
@@ -133,7 +133,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(9000), unique=False, nullable=False)
-    todoLog_relation = db.relationship('TodoLog', backref="user", lazy=True)
+    todoUsuario_relation = db.relationship('TodoUsuario', backref="user", lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.nombre
@@ -143,8 +143,8 @@ class User(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
-            "to-do log": self.getTodoLog()
+            "to-do del usuario": self.getTodoUsuario()
             # do not serialize the password, its a security breach
         }
-    def getTodoLog(self):
-        return list(map(lambda todo : todo.serialize(), self.todoLog_relation))
+    def getTodoUsuario(self):
+        return list(map(lambda todo : todo.serialize(), self.todoUsuario_relation))
