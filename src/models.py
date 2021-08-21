@@ -2,18 +2,28 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class TodoLog(db.Model):
-    __tablename__ = 'todolog'
+class TodoUsuario(db.Model):
+    __tablename__ = 'todousuario'
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    desafioID = db.Column(db.Integer, db.ForeignKey('desafios.id'), nullable=True)
+    # todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
     date = db.Column(db.Date, nullable=True)
     done = db.Column(db.Boolean, nullable=True)
+    to_dos_template = db.relationship('TemplateTodo', backref='todousuario', lazy=True)
 
     def __repr__(self):
-        return '<TodoLog %r>' % self.id
+        # return '<Todo Usuario %r>' % self.id
+        return 'To-do usuario %r' % self.id
 
     def serialize(self):
+        # # if self.todoID != None:
+        #     return {
+        #         "id": self.id,
+        #         "date": self.date,
+        #         "done": self.done,
+        #         "To-do item": self.templatetodo.name
+        #     }
+        # else:
         return {
             "id": self.id,
             "date": self.date,
@@ -30,10 +40,11 @@ class Recetas(db.Model):
     descripcion = db.Column(db.String(250), unique=True, nullable=False)
     urlVideo = db.Column(db.String(250), unique=True, nullable=False)
     urlFoto = db.Column(db.String(250), unique=True, nullable=False) 
-    dias_relation = db.relationship('Dias', backref="recetas", lazy=True) 
+    dia_a_la_que_pertenece = db.relationship('Dias', backref="recetas", lazy=True) 
 
     def __repr__(self):
-        return '<Recetas %r>' % self.name
+        # return '<Recetas %r>' % self.name
+        return 'Receta %r' % self.name
 
     def serialize(self):
         return {
@@ -49,9 +60,12 @@ class TemplateTodo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     idDia = db.Column(db.Integer, db.ForeignKey('dias.id'), nullable=True)
+    # todoUsuario_relation = db.relationship('TodoUsuario', backref="templatetodo", lazy=True)
+    todoUsuario = db.Column(db.Integer, db.ForeignKey('todousuario.id'), nullable=True)
 
     def __repr__(self):
-        return '<TemplateTodo %r>' % self.name
+        # return '<TemplateTodo %r>' % self.name
+        return 'To-do (Template) %r' % self.name
 
     def serialize(self):
         return {
@@ -67,10 +81,11 @@ class Rutina(db.Model):
     descripcion = db.Column(db.String(250), unique=True, nullable=False)
     urlVideo = db.Column(db.String(250), unique=False, nullable=False)
     urlFoto = db.Column(db.String(250), unique=False, nullable=False) 
-    dias_relation = db.relationship('Dias', backref="rutina", lazy=True)
+    dia_a_la_que_pertenece = db.relationship('Dias', backref="rutina", lazy=True)
 
     def __repr__(self):
-        return '<Rutina %r>' % self.name
+        # return '<Rutina %r>' % self.name
+        return 'Rutina %r' % self.name
 
     def serialize(self):
         return {
@@ -88,19 +103,25 @@ class Dias(db.Model):
     idDesafio = db.Column(db.ForeignKey('desafios.id'), nullable=True)
     idReceta = db.Column(db.Integer, db.ForeignKey('recetas.id'), nullable=True)
     idRutina = db.Column(db.Integer, db.ForeignKey('rutina.id'), nullable=True)
-    todo_t_rel = db.relationship('TemplateTodo', backref='dias', lazy=True)
+    todo_template_del_dia = db.relationship('TemplateTodo', backref='dias', lazy=True)
 
     def __repr__(self):
-        return '<Dias %r>' % self.numeroDia
+        # return '<Dias %r>' % self.numeroDia
+        return 'Dia %r' % self.numeroDia
 
     def serialize(self):
         return {
             "id": self.id,
             "numeroDia": self.numeroDia,
             "idDesafio": self.idDesafio,
+            "to-dos del dia": self.getToDos(),
             "idReceta": self.idReceta,
             "idRutina": self.idRutina
+
         }
+    
+    def getToDos(self):
+        return list(map(lambda todos : todos.serialize(), self.todo_template_del_dia))
 
 class Desafios(db.Model):
     __tablename__ = 'desafios'
@@ -111,11 +132,11 @@ class Desafios(db.Model):
     feat2 = db.Column(db.String(120), unique=True, nullable=False)
     feat3 = db.Column(db.String(120), unique=True, nullable=False)
     photoURL = db.Column(db.String(250), unique=True, nullable=False)
-    todolog_relationship = db.relationship('TodoLog', backref='desafios', lazy=True)
-    dias_rel = db.relationship('Dias', backref='desafios', lazy=True)
+    dias_del_desafio = db.relationship('Dias', backref='desafios', lazy=True)
     
     def __repr__(self):
-        return '<Desafios %r>' % self.nombreDesafio
+        # return '<Desafios %r>' % self.nombreDesafio
+        return self.nombreDesafio
 
     def serialize(self):
         return {
@@ -130,7 +151,7 @@ class Desafios(db.Model):
         }
     
     def getDias(self):
-        return list(map(lambda days : days.serialize(),self.dias_rel))
+        return list(map(lambda days : days.serialize(),self.dias_del_desafio))
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -138,18 +159,19 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(9000), unique=False, nullable=False)
-    todoLog_relation = db.relationship('TodoLog', backref="user", lazy=True)
+    to_dos_del_usuario = db.relationship('TodoUsuario', backref="user", lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.nombre
+        # return '<User %r>' % self.nombre
+        return 'Usuario: %r' % self.email
 
     def serialize(self):
         return {
             "id": self.id,
             "nombre": self.nombre,
             "email": self.email,
-            "to-do log": self.getTodoLog()
+            "to-do del usuario": self.getTodoUsuario()
             # do not serialize the password, its a security breach
         }
-    def getTodoLog(self):
-        return list(map(lambda todo : todo.serialize(), self.todoLog_relation))
+    def getTodoUsuario(self):
+        return list(map(lambda todo : todo.serialize(), self.to_dos_del_usuario))

@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, TodoLog
+from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, TodoUsuario
 #from models import Person
 from werkzeug.security import generate_password_hash, check_password_hash
 #nos permite manejar tokens por authentication (usuarios), genera password y las checkea en hash
@@ -39,6 +39,7 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+#endpoint para mostrar los desafios
 @app.route('/todolog', methods=['POST'])
 #@jwt_required()
 def post_todolog():
@@ -203,13 +204,13 @@ def get_desafios():
     desafios = list(map(lambda x: x.serialize(), desafios))
     print(desafios)
     response_body = {
-        "msg": "Hello, this is your GET /dias response ",
+        "msg": "Hello, this is your GET /desafios response ",
         "desafios": desafios
     }
     return jsonify(response_body), 200
 
 
-
+#endpoint para mostrar los usuarios
 @app.route('/users', methods=['GET'])
 #@jwt_required()
 def get_user():
@@ -222,6 +223,7 @@ def get_user():
     return jsonify(response_body), 200
 
 
+# endpoint para mostrar un usuario particular
 @app.route('/users/<int:id>', methods=['GET'])
 #@jwt_required()
 def get_user_id(id):
@@ -232,6 +234,7 @@ def get_user_id(id):
         "usuario": user
     }
     return jsonify(user.serialize()), 200
+
 
 @app.route('/users/<int:id>', methods=['PUT'])
 def put_userupgrade(id):
@@ -266,6 +269,7 @@ def delete_user(id):
     }
     return jsonify(response_body), 200    
 
+
 #ya no es necesario este endpoint, puesto si hacemos POST para users, deberia ser con hash
 # @app.route('/users', methods=['POST'])
 # @jwt_required()
@@ -278,6 +282,7 @@ def delete_user(id):
 #     response_body = {
 #         "msg": "Hello, this is your POST /user response "
 #     }
+
 
 #     return jsonify(response_body), 200
 
