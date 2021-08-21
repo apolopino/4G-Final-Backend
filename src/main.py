@@ -39,17 +39,19 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+#endpoint para mostrar los desafios
 @app.route('/desafios', methods=['GET'])
 def get_desafios():
     desafios = Desafios.query.all()
     desafios = list(map(lambda x: x.serialize(), desafios))
     print(desafios)
     response_body = {
-        "msg": "Hello, this is your GET /dias response ",
+        "msg": "Hello, this is your GET /desafios response ",
         "desafios": desafios
     }
     return jsonify(response_body), 200
 
+#endpoint para mostrar los usuarios
 @app.route('/users', methods=['GET'])
 #@jwt_required()
 def get_user():
@@ -62,6 +64,7 @@ def get_user():
     return jsonify(response_body), 200
 
 
+# endpoint para mostrar un usuario particular
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user_id(id):
     user = User.query.filter_by(id=id).first()
@@ -71,6 +74,7 @@ def get_user_id(id):
         "usuario": user
     }
     return jsonify(user.serialize()), 200
+
 
 @app.route('/users/<int:id>', methods=['PUT'])
 def put_userupgrade(id):
@@ -104,6 +108,7 @@ def delete_user(id):
         "user": "user eliminado"
     }
     return jsonify(response_body), 200    
+
 
 @app.route('/users', methods=['POST'])
 #@jwt_required()

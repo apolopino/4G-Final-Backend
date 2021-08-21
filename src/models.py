@@ -100,8 +100,12 @@ class Dias(db.Model):
         return {
             "id": self.id,
             "numeroDia": self.numeroDia,
-            "idDesafio": self.idDesafio
+            "idDesafio": self.idDesafio,
+            "to-dos del dia": self.getToDos()
         }
+    
+    def getToDos(self):
+        return list(map(lambda todos : todos.serialize(), self.todo_template_del_dia))
 
 class Desafios(db.Model):
     __tablename__ = 'desafios'
@@ -131,7 +135,7 @@ class Desafios(db.Model):
         }
     
     def getDias(self):
-        return list(map(lambda days : days.serialize(),self.dias_rel))
+        return list(map(lambda days : days.serialize(),self.dias_del_desafio))
 
 class User(db.Model):
     __tablename__ = 'user'
