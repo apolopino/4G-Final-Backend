@@ -6,6 +6,7 @@ class TodoUsuario(db.Model):
     __tablename__ = 'todousuario'
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    # La linea de abajo esta comentada pues la relacion es un desafio, muchos todoUsuarios, no al reves.
     # todoID = db.Column(db.Integer, db.ForeignKey('templatetodo.id'), nullable=True)
     date = db.Column(db.Date, nullable=True)
     done = db.Column(db.Boolean, nullable=True)
@@ -16,21 +17,13 @@ class TodoUsuario(db.Model):
         return 'To-do usuario %r' % self.id
 
     def serialize(self):
-        # # if self.todoID != None:
-        #     return {
-        #         "id": self.id,
-        #         "date": self.date,
-        #         "done": self.done,
-        #         "To-do item": self.templatetodo.name
-        #     }
-        # else:
         return {
             "id": self.id,
             "date": self.date,
             "done": self.done,
 #            "desafio": self.desafios.nombreDesafio,
             "userID": self.userID,
-            "desafioID": self.desafioID
+            # "desafioID": self.desafioID
         }
 
 class Recetas(db.Model):
