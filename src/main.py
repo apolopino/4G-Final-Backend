@@ -39,6 +39,24 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+@app.route('/todolog', methods=['POST'])
+#@jwt_required()
+def post_todolog():
+    body = request.get_json()
+    todolog = TodoLog(
+        date=body['date'],
+        done=body['done'],
+        userID=body['userID'],
+        desafioID=body['desafioID']
+        )
+    db.session.add(todolog)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /todolog response "
+    }
+
+    return jsonify(response_body), 200
+
 @app.route('/todolog', methods=['GET'])
 def get_todolog():
     todolog = TodoLog.query.all()
@@ -49,6 +67,24 @@ def get_todolog():
     }
     return jsonify(response_body), 200
 
+@app.route('/recetas', methods=['POST'])
+#@jwt_required()
+def post_recetas():
+    body = request.get_json()
+    recetas = Recetas(
+        name=body['name'],
+        descripcion=body['descripcion'],
+        urlVideo=body['urlVideo'],
+        urlFoto=body['urlFoto']      
+        )
+    db.session.add(recetas)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /recetas response "
+    }
+
+    return jsonify(response_body), 200
+
 @app.route('/recetas', methods=['GET'])
 def get_recetas():
     recetas = Recetas.query.all()
@@ -57,6 +93,22 @@ def get_recetas():
         "msg": "Hello, this is your GET /recetas response ",
         "recetas": recetas
     }
+    return jsonify(response_body), 200
+
+@app.route('/templatetodo', methods=['POST'])
+#@jwt_required()
+def post_templatetodo():
+    body = request.get_json()
+    templatetodo = TemplateTodo(
+        name=body['name'],
+        idDia=body['idDia']
+        )
+    db.session.add(templatetodo)
+    db.session.commit()
+    response_body = {
+        "msg": "Hello, this is your POST /templatetodo response "
+    }
+
     return jsonify(response_body), 200
 
 @app.route('/templatetodo', methods=['GET'])
@@ -171,6 +223,7 @@ def get_user():
 
 
 @app.route('/users/<int:id>', methods=['GET'])
+#@jwt_required()
 def get_user_id(id):
     user = User.query.filter_by(id=id).first()
     print(user)
@@ -213,19 +266,20 @@ def delete_user(id):
     }
     return jsonify(response_body), 200    
 
-@app.route('/users', methods=['POST'])
-#@jwt_required()
-def post_users():
-    body = request.get_json()
-    print(body)
-    user = User(email=body['email'],nombre=body['nombre'],password=body['password'])
-    db.session.add(user)
-    db.session.commit()
-    response_body = {
-        "msg": "Hello, this is your POST /user response "
-    }
+#ya no es necesario este endpoint, puesto si hacemos POST para users, deberia ser con hash
+# @app.route('/users', methods=['POST'])
+# @jwt_required()
+# def post_users():
+#     body = request.get_json()
+#     print(body)
+#     user = User(email=body['email'],nombre=body['nombre'],password=body['password'])
+#     db.session.add(user)
+#     db.session.commit()
+#     response_body = {
+#         "msg": "Hello, this is your POST /user response "
+#     }
 
-    return jsonify(response_body), 200
+#     return jsonify(response_body), 200
 
 #ejemplo de breathcode sobre como conseguir un token para un usuario ya creado, como el /hash de ejemplo de Manu
 # @app.route('/token', methods=['POST'])

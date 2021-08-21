@@ -18,7 +18,9 @@ class TodoLog(db.Model):
             "id": self.id,
             "date": self.date,
             "done": self.done,
-            "desafio": self.desafios.nombreDesafio
+#            "desafio": self.desafios.nombreDesafio,
+            "userID": self.userID,
+            "desafioID": self.desafioID
         }
 
 class Recetas(db.Model):
@@ -55,6 +57,7 @@ class TemplateTodo(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "idDia": self.idDia
         }
 
 class Rutina(db.Model):
