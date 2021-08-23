@@ -109,13 +109,13 @@ Content-Type: application/json
 
 #los campos son en su mayoria unicos    
 
-### TODOLOG POST
-POST {{host}}/todolog
+### TODOUSUARIO POST
+POST {{host}}/todousuario
 Content-Type: application/json
 
 {
-    "date": null,
-	"desafioID": null,
+    "date": "2021-08-24",
+	"desafioID": 1,
     "done": false,
-	"userID": null
+	"userID": 1
     }

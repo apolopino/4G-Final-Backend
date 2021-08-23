@@ -40,31 +40,31 @@ def sitemap():
     return generate_sitemap(app)
 
 #endpoint para mostrar los desafios
-@app.route('/todolog', methods=['POST'])
+@app.route('/todousuario', methods=['POST'])
 #@jwt_required()
-def post_todolog():
+def post_todousuario():
     body = request.get_json()
-    todolog = TodoLog(
+    todousuario = TodoUsuario(
         date=body['date'],
         done=body['done'],
         userID=body['userID'],
         desafioID=body['desafioID']
         )
-    db.session.add(todolog)
+    db.session.add(todousuario)
     db.session.commit()
     response_body = {
-        "msg": "Hello, this is your POST /todolog response "
+        "msg": "Hello, this is your POST /todousuario response "
     }
 
     return jsonify(response_body), 200
 
-@app.route('/todolog', methods=['GET'])
-def get_todolog():
-    todolog = TodoLog.query.all()
-    todolog = list(map(lambda x: x.serialize(), todolog))
+@app.route('/todousuario', methods=['GET'])
+def get_todousuario():
+    todousuario = TodoUsuario.query.all()
+    todousuario = list(map(lambda x: x.serialize(), todousuario))
     response_body = {
-        "msg": "Hello, this is your GET /todolog response ",
-        "todolog": todolog
+        "msg": "Hello, this is your GET /todousuario response ",
+        "todousuario": todousuario
     }
     return jsonify(response_body), 200
 

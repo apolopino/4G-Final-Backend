@@ -180,8 +180,8 @@ Considerar tambien que muchos campos son unicos y al insertar el contenido en la
 }
 
 {
-  "msg": "Hello, this is your GET /todolog response ",
-  "todolog": [
+  "msg": "Hello, this is your GET /todousuario response ",
+  "todousuario": [
     {
       "date": "2021-08-24",
 			"desafioID": 1,
