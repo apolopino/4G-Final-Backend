@@ -44,7 +44,7 @@ def sitemap():
 #@jwt_required()
 def post_todousuario():
     body = request.get_json()
-    todolog = TodoLog(
+    todolog = TodoUsuario(
         fecha=body['fecha'],
         done=body['done'],
         userID=body['userID'],
@@ -68,20 +68,22 @@ def get_todousuario():
     }
     return jsonify(response_body), 200
 
-@app.route('/recetas', methods=['POST'])
+@app.route('/extras', methods=['POST'])
 #@jwt_required()
-def post_recetas():
+def post_extras():
     body = request.get_json()
-    recetas = Recetas(
-        name=body['name'],
+    element = Extras(
+        actividad=body['name'],
+        tipo=body['tipo'],
         descripcion=body['descripcion'],
         urlVideo=body['urlVideo'],
-        urlFoto=body['urlFoto']      
+        urlFoto=body['urlFoto'],
+        dia=body['dia']   
         )
-    db.session.add(recetas)
+    db.session.add(element)
     db.session.commit()
     response_body = {
-        "msg": "Hello, this is your POST /recetas response "
+        "msg": "Hello, this is your POST /extras response "
     }
 
     return jsonify(response_body), 200
@@ -119,34 +121,6 @@ def get_templatetodo():
     response_body = {
         "msg": "Hello, this is your GET /templatetodo response ",
         "templatetodo": templatetodo
-    }
-    return jsonify(response_body), 200
-
-@app.route('/rutina', methods=['POST'])
-#@jwt_required()
-def post_rutina():
-    body = request.get_json()
-    rutina = Rutina(
-        name=body['name'],
-        descripcion=body['descripcion'],
-        urlVideo=body['urlVideo'],
-        urlFoto=body['urlFoto']
-        )
-    db.session.add(rutina)
-    db.session.commit()
-    response_body = {
-        "msg": "Hello, this is your POST /rutina response "
-    }
-
-    return jsonify(response_body), 200
-
-@app.route('/rutina', methods=['GET'])
-def get_rutina():
-    rutina = Rutina.query.all()
-    rutina = list(map(lambda x: x.serialize(), rutina))
-    response_body = {
-        "msg": "Hello, this is your GET /rutina response ",
-        "rutina": rutina
     }
     return jsonify(response_body), 200
 
