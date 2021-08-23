@@ -190,7 +190,7 @@ def get_user():
     users = User.query.all()
     users = list(map(lambda x: x.serialize(), users))
     response_body = {
-        "msg": "Hello, this is your GET /dias response ",
+        "msg": "Hello, this is your GET /Users response ",
         "usuarios": users
     }
     return jsonify(response_body), 200
@@ -202,7 +202,7 @@ def get_user():
 def get_user_id(id):
     user = User.query.filter_by(id=id).first()
     print(user)
-    # user = list(map(lambda x: x.serialize(), user))
+    
     response_body = {
         "usuario": user
     }
