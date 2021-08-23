@@ -88,13 +88,13 @@ def post_extras():
 
     return jsonify(response_body), 200
 
-@app.route('/recetas', methods=['GET'])
+@app.route('/extras', methods=['GET'])
 def get_recetas():
-    recetas = Recetas.query.all()
-    recetas = list(map(lambda x: x.serialize(), recetas))
+    response = Extras.query.all()
+    response = list(map(lambda x: x.serialize(), response))
     response_body = {
-        "msg": "Hello, this is your GET /recetas response ",
-        "recetas": recetas
+        "msg": "Hello, this is your GET /extras response ",
+        "extras": response
     }
     return jsonify(response_body), 200
 
