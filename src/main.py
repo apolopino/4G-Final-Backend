@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, TodoUsuario
+from models import db, ExtrasUsuarios, TodoUsuario, User, Extras, TemplateTodo, Dias, Desafios
 #from models import Person
 from werkzeug.security import generate_password_hash, check_password_hash
 #nos permite manejar tokens por authentication (usuarios), genera password y las checkea en hash
