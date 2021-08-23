@@ -14,7 +14,7 @@ class TodoUsuario(db.Model):
 
     def __repr__(self):
         # return '<Todo Usuario %r>' % self.id
-        return 'To-do usuario %r' % self.id
+        return 'To-do usuario %r' % self.id 
 
     def serialize(self):
         return {

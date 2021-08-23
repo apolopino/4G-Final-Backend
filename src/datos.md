@@ -1,7 +1,7 @@
 Este archivo es para alimentar la base de datos a traves del metodo POST de cada enpoint.
 
-Considerar que los campos llenados en null en aquellos que alude a algun ID relacionado por FK estan asi puesto no se pueden llenar a traves de esta forma y eso deberemos relacionarlo a traves del administrador de la base de datos de forma manual. 
-"Cannot add or update a child row"
+Considerar que los campos llenados que aluden a algun ID relacionado por FK debemos revisar sea un ID existente, de otra forma arrojara error "Cannot add or update a child row", aunq igualmente luego se llenar con null y relacionarlo a traves del administrador de la base de datos de forma manual. 
+
 
 En cuanto a la fecha de la tabla TodoLog tambien hay q hacerlo de forma manual.
 
@@ -183,25 +183,16 @@ Considerar tambien que muchos campos son unicos y al insertar el contenido en la
   "msg": "Hello, this is your GET /todolog response ",
   "todolog": [
     {
-      "date": "Sat, 21 Aug 2021 00:00:00 GMT",
-      "desafioID": 1,
+      "date": "2021-08-24",
+			"desafioID": 1,
       "done": false,
-      "id": 1,
-      "userID": 1
+			"userID": 1
     },
     {
-      "date": null,
-      "desafioID": null,
+      "date": "2021-08-24",
+			"desafioID": 1,
       "done": false,
-      "id": 2,
-      "userID": null
-    },
-    {
-      "date": null,
-      "desafioID": null,
-      "done": false,
-      "id": 3,
-      "userID": null
+			"userID": 2
     }
   ]
 }
