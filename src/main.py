@@ -124,15 +124,14 @@ def get_templatetodo():
     }
     return jsonify(response_body), 200
 
+# POST Dias no logro hacerlo funcionar (no es requerido)
 @app.route('/dias', methods=['POST'])
 #@jwt_required()
 def post_dias():
     body = request.get_json()
     dias = Dias(
         numeroDia=body['numeroDia'],
-        idDesafio=body['idDesafio'],
-        idReceta=body['idReceta'],
-        idRutina=body['idRutina']
+        idDesafio=body['idDesafio']
         )
     db.session.add(dias)
     db.session.commit()

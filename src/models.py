@@ -134,12 +134,15 @@ class Dias(db.Model):
             "id": self.id,
             "numeroDia": self.numeroDia,
             "idDesafio": self.desafios.nombreDesafio,
-            "receta/rutina": self.extras.actividad,
+            "receta/rutina": self.getExtras(),
             "to-dos del dia": self.getToDos()
         }
     
     def getToDos(self):
         return list(map(lambda todos : todos.serialize(), self.todo_template_del_dia))
+
+    def getExtras(self):
+        return list(map(lambda extras : extras.serialize(), self.extras_del_dia))
 
 class Desafios(db.Model):
     __tablename__ = 'desafios'
