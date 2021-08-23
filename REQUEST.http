@@ -1,4 +1,4 @@
-@host=https://3001-bronze-impala-vib65y6n.ws-us16.gitpod.io
+@host=https://3001-white-leopard-omsrf9vd.ws-us16.gitpod.io
 #puedo definir variables, en este caso host
 #para luego definir los metodos que quiero usar
 
@@ -76,13 +76,15 @@ Content-Type: application/json
     "numeroDia": 4
     }
 
-### RUTINA POST
-POST {{host}}/rutina
+### EXTRA POST
+POST {{host}}/extras
 Content-Type: application/json
 
 {
-    "descripcion": "Recomendaciones para leer mas",
-    "name": "Como leer mas",
+    "actividad": "Nombre_actividad",
+    "tipo": "rutina",
+    "descripcion": "Descripcion larga",
+    "dia": "1",
     "urlFoto": "https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg",
     "urlVideo": "https://m.elmostrador.cl/cultura/2020/08/20/diez-trucos-para-leer-mas/"
     }    

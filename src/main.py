@@ -73,7 +73,7 @@ def get_todousuario():
 def post_extras():
     body = request.get_json()
     element = Extras(
-        actividad=body['name'],
+        actividad=body['actividad'],
         tipo=body['tipo'],
         descripcion=body['descripcion'],
         urlVideo=body['urlVideo'],
