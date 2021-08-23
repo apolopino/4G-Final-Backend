@@ -1,4 +1,4 @@
-@host=https://3001-bronze-impala-vib65y6n.ws-us16.gitpod.io
+@host=https://3001-white-leopard-omsrf9vd.ws-us16.gitpod.io
 #puedo definir variables, en este caso host
 #para luego definir los metodos que quiero usar
 
@@ -54,12 +54,11 @@ POST {{host}}/desafios
 Content-Type: application/json
 
 {
-    "descripcionDesafio": "Leer mas",
-    "dias del desafio": [],
-    "feat1": "10",
-    "feat2": "11",
-    "feat3": "12",
-    "nombreDesafio": "Desafio 4",
+    "nombreDesafio": "Desafio 2",
+    "descripcionDesafio": "Descripcion larga del desafio 2",
+    "feat1": "feature 1",
+    "feat2": "feature 2",
+    "feat3": "feature 3",
     "photoURL": "http://cdn2.dineroenimagen.com/media/dinero/styles/xlarge/public/images/2019/12/knowledge-10520101920.jpg"
     }
 
@@ -76,15 +75,17 @@ Content-Type: application/json
     "numeroDia": 4
     }
 
-### RUTINA POST
-POST {{host}}/rutina
+### EXTRA POST (Receta o rutina)
+POST {{host}}/extras
 Content-Type: application/json
 
 {
-    "descripcion": "Recomendaciones para leer mas",
-    "name": "Como leer mas",
+    "actividad": "Nombre_actividad",
+    "tipo": "Rutina",
+    "descripcion": "Descripcion larga",
     "urlFoto": "https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg",
-    "urlVideo": "https://m.elmostrador.cl/cultura/2020/08/20/diez-trucos-para-leer-mas/"
+    "urlVideo": "https://m.elmostrador.cl/cultura/2020/08/20/diez-trucos-para-leer-mas/",
+     "dia": "1"
     }    
 
 ### TEMPLATETODO POST
@@ -96,18 +97,14 @@ Content-Type: application/json
 	"idDia": null
     }    
 
-### RECETAS POST
-POST {{host}}/recetas
+### Dias Post
+POST {{host}}/dias
 Content-Type: application/json
 
 {
-    "descripcion": "dga",
-    "name": "Receta 3",
-    "urlFoto": "sdga",
-    "urlVideo": "asdga"
-    }    
-
-#los campos son en su mayoria unicos    
+    "numeroDia": 3,
+    "idDesafio": null
+}
 
 ### TODOUSUARIO POST
 POST {{host}}/todousuario

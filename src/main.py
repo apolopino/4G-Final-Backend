@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Desafios, Dias, Rutina, TemplateTodo, Recetas, TodoUsuario
+from models import db, ExtrasUsuarios, TodoUsuario, User, Extras, TemplateTodo, Dias, Desafios
 #from models import Person
 from werkzeug.security import generate_password_hash, check_password_hash
 #nos permite manejar tokens por authentication (usuarios), genera password y las checkea en hash
@@ -44,11 +44,11 @@ def sitemap():
 #@jwt_required()
 def post_todousuario():
     body = request.get_json()
-    todousuario = TodoUsuario(
-        date=body['date'],
+    todolog = TodoUsuario(
+        fecha=body['fecha'],
         done=body['done'],
         userID=body['userID'],
-        desafioID=body['desafioID']
+        actividad=body['actividad']
         )
     db.session.add(todousuario)
     db.session.commit()
@@ -60,39 +60,42 @@ def post_todousuario():
 
 @app.route('/todousuario', methods=['GET'])
 def get_todousuario():
-    todousuario = TodoUsuario.query.all()
-    todousuario = list(map(lambda x: x.serialize(), todousuario))
+    listatodo = TodoUsuario.query.all()
+    listatodo = list(map(lambda x: x.serialize(), listatodo))
     response_body = {
         "msg": "Hello, this is your GET /todousuario response ",
-        "todousuario": todousuario
+        "lista de to-dos": listatodo
+
     }
     return jsonify(response_body), 200
 
-@app.route('/recetas', methods=['POST'])
+@app.route('/extras', methods=['POST'])
 #@jwt_required()
-def post_recetas():
+def post_extras():
     body = request.get_json()
-    recetas = Recetas(
-        name=body['name'],
+    element = Extras(
+        actividad=body['actividad'],
+        tipo=body['tipo'],
         descripcion=body['descripcion'],
         urlVideo=body['urlVideo'],
-        urlFoto=body['urlFoto']      
+        urlFoto=body['urlFoto'],
+        dia=body['dia']   
         )
-    db.session.add(recetas)
+    db.session.add(element)
     db.session.commit()
     response_body = {
-        "msg": "Hello, this is your POST /recetas response "
+        "msg": "Hello, this is your POST /extras response "
     }
 
     return jsonify(response_body), 200
 
-@app.route('/recetas', methods=['GET'])
+@app.route('/extras', methods=['GET'])
 def get_recetas():
-    recetas = Recetas.query.all()
-    recetas = list(map(lambda x: x.serialize(), recetas))
+    response = Extras.query.all()
+    response = list(map(lambda x: x.serialize(), response))
     response_body = {
-        "msg": "Hello, this is your GET /recetas response ",
-        "recetas": recetas
+        "msg": "Hello, this is your GET /extras response ",
+        "extras": response
     }
     return jsonify(response_body), 200
 
@@ -122,43 +125,14 @@ def get_templatetodo():
     }
     return jsonify(response_body), 200
 
-@app.route('/rutina', methods=['POST'])
-#@jwt_required()
-def post_rutina():
-    body = request.get_json()
-    rutina = Rutina(
-        name=body['name'],
-        descripcion=body['descripcion'],
-        urlVideo=body['urlVideo'],
-        urlFoto=body['urlFoto']
-        )
-    db.session.add(rutina)
-    db.session.commit()
-    response_body = {
-        "msg": "Hello, this is your POST /rutina response "
-    }
-
-    return jsonify(response_body), 200
-
-@app.route('/rutina', methods=['GET'])
-def get_rutina():
-    rutina = Rutina.query.all()
-    rutina = list(map(lambda x: x.serialize(), rutina))
-    response_body = {
-        "msg": "Hello, this is your GET /rutina response ",
-        "rutina": rutina
-    }
-    return jsonify(response_body), 200
-
+# POST Dias no logro hacerlo funcionar (no es requerido)
 @app.route('/dias', methods=['POST'])
 #@jwt_required()
 def post_dias():
     body = request.get_json()
     dias = Dias(
         numeroDia=body['numeroDia'],
-        idDesafio=body['idDesafio'],
-        idReceta=body['idReceta'],
-        idRutina=body['idRutina']
+        idDesafio=body['idDesafio']
         )
     db.session.add(dias)
     db.session.commit()
@@ -217,7 +191,7 @@ def get_user():
     users = User.query.all()
     users = list(map(lambda x: x.serialize(), users))
     response_body = {
-        "msg": "Hello, this is your GET /dias response ",
+        "msg": "Hello, this is your GET /Users response ",
         "usuarios": users
     }
     return jsonify(response_body), 200
@@ -229,7 +203,7 @@ def get_user():
 def get_user_id(id):
     user = User.query.filter_by(id=id).first()
     print(user)
-    # user = list(map(lambda x: x.serialize(), user))
+    
     response_body = {
         "usuario": user
     }
