@@ -84,10 +84,11 @@ class Extras(db.Model):
     descripcion = db.Column(db.String(250), unique=True, nullable=False)
     urlVideo = db.Column(db.String(250), unique=True, nullable=False)
     urlFoto = db.Column(db.String(250), unique=True, nullable=False) 
-    dia_a_la_que_pertenece = db.relationship('Dias', backref="extras", lazy=True) 
+    dia = db.Column(db.ForeignKey('dias.id'), nullable=True)
+    # dia_a_la_que_pertenece = db.relationship('Dias', backref="extras", lazy=True)
 
     def __repr__(self):
-        return 'Extra %r' % self.name
+        return 'Extra %r' % self.actividad
 
     def serialize(self):
         return {
@@ -120,7 +121,8 @@ class Dias(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     numeroDia = db.Column(db.Integer, nullable=False)
     idDesafio = db.Column(db.ForeignKey('desafios.id'), nullable=True)
-    idExtra = db.Column(db.Integer, db.ForeignKey('extras.id'), nullable=True)
+    extras_del_dia = db.relationship('Extras', lazy=True)
+    # idExtra = db.Column(db.ForeignKey('extras.id'), nullable=True)
     todo_template_del_dia = db.relationship('TemplateTodo', backref='dias', lazy=True)
 
     def __repr__(self):
