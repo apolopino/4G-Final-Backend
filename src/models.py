@@ -43,7 +43,7 @@ class TodoUsuario(db.Model):
         return {
             "id": self.id,
             "userID": self.userID,
-            "userEmail": self.user.email,
+            # "userEmail": self.user.email,
             "actividad": self.actividad,
             "fecha": self.fecha,
             "done": self.done
