@@ -50,7 +50,7 @@ def post_todousuario():
         userID=body['userID'],
         actividad=body['actividad']
         )
-    db.session.add(todolog)
+    db.session.add(todousuario)
     db.session.commit()
     response_body = {
         "msg": "Hello, this is your POST /todousuario response "
@@ -65,6 +65,7 @@ def get_todousuario():
     response_body = {
         "msg": "Hello, this is your GET /todousuario response ",
         "lista de to-dos": listatodo
+
     }
     return jsonify(response_body), 200
 
