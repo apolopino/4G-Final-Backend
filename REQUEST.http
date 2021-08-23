@@ -69,11 +69,9 @@ POST {{host}}/dias
 Content-Type: application/json
 
 {
-    "idDesafio": null,
-    "idReceta": null,
-    "idRutina": null,
-    "numeroDia": 4
-    }
+    "numeroDia": 3,
+    "idDesafio": null
+}
 
 ### EXTRA POST (Receta o rutina)
 POST {{host}}/extras
@@ -85,7 +83,7 @@ Content-Type: application/json
     "descripcion": "Descripcion larga",
     "urlFoto": "https://www.comunidadbaratz.com/wp-content/uploads/Leer-es-un-modo-de-entretenimiento-y-conocimiento-que-desde-hace-tiempo-convive-y-compite-contra-otras-formas-de-ocio-e-informacion.jpg",
     "urlVideo": "https://m.elmostrador.cl/cultura/2020/08/20/diez-trucos-para-leer-mas/",
-     "dia": "1"
+    "dia": "1"
     }    
 
 ### TEMPLATETODO POST
@@ -97,22 +95,13 @@ Content-Type: application/json
 	"idDia": null
     }    
 
-### Dias Post
-POST {{host}}/dias
-Content-Type: application/json
-
-{
-    "numeroDia": 3,
-    "idDesafio": null
-}
-
 ### TODOUSUARIO POST
 POST {{host}}/todousuario
 Content-Type: application/json
 
 {
-    "date": "2021-08-24",
-	"desafioID": 1,
+    "actividad": "lavar ropa2",
     "done": false,
-	"userID": 1
+    "fecha": "2021-08-25",
+    "userID": 2
     }
