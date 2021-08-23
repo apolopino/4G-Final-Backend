@@ -44,7 +44,7 @@ def sitemap():
 #@jwt_required()
 def post_todousuario():
     body = request.get_json()
-    todolog = TodoUsuario(
+    todousuario = TodoUsuario(
         fecha=body['fecha'],
         done=body['done'],
         userID=body['userID'],
