@@ -12,9 +12,9 @@ POST {{host}}/register
 Content-Type: application/json
 
 {
-    "email":"conejitoreload@hola.cl",
+    "email":"conejitoretrinity@hola.cl",
     "nombre":"Conejito 2.0",
-    "password":"conejito"
+    "password":"20"
 }
 
 # {
