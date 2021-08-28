@@ -41,7 +41,7 @@
     
 #     return jsonify({"id": user.id, "nombre": user.nombre }), 200
 
-#ruta de ejemplo visto en clases JWT sobre como hashear una registro com campos de usuario ya existente
+#ruta de ejemplo visto en clases JWT sobre como hashear una registro con campos de usuario ya existente
 #NO SE USA, implicaria que el usuario se registro sin que su password quedara protegida
 #ejemplo de manejo de expiracion
 # @app.route('/hash', methods=['GET', 'POST'])
