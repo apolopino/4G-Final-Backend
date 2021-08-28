@@ -291,18 +291,18 @@ def login():
 @app.route("/recuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
-    user = User.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first()
     expiracion = datetime.timedelta(days=1)
     if user is not None:
         access_token = create_access_token(identity=user.email, expires_delta=expiracion)
-        link = URLFRONT + "/recuperacion/" + access_token
+        link = URLFRONTEND + "/recuperacion/" + access_token
         return link
     else: 
         return jsonify({
             "msg": "User does not exist"
         }), 404
 
-@app.route("/new_password", methods=["POST"])
+@app.route("/nueva_password", methods=["POST"])
 #@jwt_required()
 def new_password():
     password = request.json.get("password")
