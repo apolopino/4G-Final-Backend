@@ -17,6 +17,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 #crea tokens, indicar una ruta que requiere de un token
 import datetime
 #nos permite dar tiempo a los tokens, es propio de python
+import hashlib
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -288,14 +289,19 @@ def login():
 
     return jsonify(data), 200
 
-@app.route("/recuperacion", methods=["POST"])
+@app.route("/solicitudrecuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
     user = User.query.filter_by(email=email).first()
     expiracion = datetime.timedelta(days=1)
     if user is not None:
-        access_token = create_access_token(identity=user.email, expires_delta=expiracion)
-        link = URLFRONTEND + "/recuperacion/" + access_token
+#        access_token = create_access_token(identity=user.email, expires_delta=expiracion)
+#        link = URLFRONTEND + "/recuperacion/" + access_token
+#        return link
+#        h = hashlib.sha1(b"www.recursospython.com - Recursos Python")
+        cadena = (identity=user.email, expires_delta=expiracion)
+        h = hashlib.md5(b"cadena")
+        link = URLFRONTEND + "/solicitudrecuperacion/" + h
         return link
     else: 
         return jsonify({
