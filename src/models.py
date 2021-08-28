@@ -5,7 +5,7 @@ db = SQLAlchemy()
 class ExtrasUsuarios(db.Model):
     __tablename__ = 'extrasusuarios'
     id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=True)
     actividad = db.Column(db.String(150))
     fecha = db.Column(db.Date)
     tipo = db.Column(db.String(80))
@@ -57,7 +57,7 @@ class User(db.Model):
     nombre = db.Column(db.String(80), nullable=False)
     desafio = db.Column(db.String(80), nullable=True)
     toDo_Usuario = db.relationship('TodoUsuario', lazy=True)
-    extras_usuario = db.relationship('ExtrasUsuarios', lazy=True)
+    extras_usuario = db.relationship('ExtrasUsuarios', backref='user', lazy=True)
 
     def __repr__(self):
         return 'Usuario %r' % self.email
@@ -105,7 +105,7 @@ class Extras(db.Model):
 class TemplateTodo(db.Model):
     __tablename__ = 'templatetodo'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), unique=False, nullable=False)
     idDia = db.Column(db.Integer, db.ForeignKey('dias.id'), nullable=True)
 
     def __repr__(self):
@@ -150,9 +150,9 @@ class Desafios(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombreDesafio = db.Column(db.String(80), unique=True, nullable=False)
     descripcionDesafio = db.Column(db.String(250), unique=True, nullable=False)
-    feat1 = db.Column(db.String(120), unique=True, nullable=False)
-    feat2 = db.Column(db.String(120), unique=True, nullable=False)
-    feat3 = db.Column(db.String(120), unique=True, nullable=False)
+    feat1 = db.Column(db.String(120), unique=False, nullable=False)
+    feat2 = db.Column(db.String(120), unique=False, nullable=False)
+    feat3 = db.Column(db.String(120), unique=False, nullable=False)
     photoURL = db.Column(db.String(250), unique=True, nullable=False)
     dias_del_desafio = db.relationship('Dias', backref='desafios', lazy=True)
     

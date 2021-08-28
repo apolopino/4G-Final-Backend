@@ -89,6 +89,28 @@ def post_extras():
 
     return jsonify(response_body), 200
 
+@app.route('/extras/<int:id>', methods=['GET'])
+def get_user_extras(id):
+    # extras = ExtrasUsuarios.query.filter_by(id = ExtrasUsuarios.userID).all()
+    # extras = ExtrasUsuarios.query.join(User).filter_by(id=User.id).all()
+    # extras = User.query.join(ExtrasUsuarios).filter_by(id = ExtrasUsuarios.userID)
+    extras = User.query.filter_by(id=id).all()
+    extras = extras[0].extras_usuario
+    extras = list(map(lambda x: x.serialize(), extras))
+    response_body = {
+        "userExtras": extras
+    }
+    return jsonify(response_body), 200
+
+@app.route('/userextras', methods = ['GET'])
+def get_extras_all():
+    extras = ExtrasUsuarios.query.all()
+    extras = list(map(lambda x: x.serialize(), extras))
+    response_body = {
+        "extras": extras
+    }
+    return jsonify(response_body), 200
+
 @app.route('/extras', methods=['GET'])
 def get_recetas():
     response = Extras.query.all()
