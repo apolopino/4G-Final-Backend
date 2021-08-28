@@ -288,14 +288,14 @@ def login():
 
     return jsonify(data), 200
 
-@app.route("/forgot_password", methods=["POST"])
+@app.route("/recuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
     user = User.filter_by(email=email).first()
     expiracion = datetime.timedelta(days=1)
     if user is not None:
         access_token = create_access_token(identity=user.email, expires_delta=expiracion)
-        link = URLFRONT + "/forgot_password/" + access_token
+        link = URLFRONT + "/recuperacion/" + access_token
         return link
     else: 
         return jsonify({
