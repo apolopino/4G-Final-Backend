@@ -29,6 +29,8 @@ setup_admin(app)
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with something else!
 jwt = JWTManager(app)
 
+URLFRONTEND = "https://3000-chocolate-bat-k8s1td5r.ws-us16.gitpod.io"
+
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -210,7 +212,8 @@ def get_user_id(id):
     return jsonify(user.serialize()), 200
 
 
-@app.route('/users/<int:id>', methods=['PUT'])
+
+""" @app.route('/users/<int:id>', methods=['PUT'])
 def put_userupgrade(id):
     user = User.query.get(id)
     request_json = request.get_json()
@@ -224,7 +227,7 @@ def put_userupgrade(id):
         "msg": "Hello, this is your PUT /user password response "
     }
 
-    return jsonify(response_body), 200
+    return jsonify(response_body), 200 """
 
 @app.route('/users/<int:id>', methods=['DELETE'])
 def delete_user(id):
@@ -285,6 +288,32 @@ def login():
 
     return jsonify(data), 200
 
+@app.route("/forgot_password", methods=["POST"])
+def send_mail():
+    email = request.json.get("email")
+    user = User.filter_by(email=email).first()
+    expiracion = datetime.timedelta(days=1)
+    if user is not None:
+        access_token = create_access_token(identity=user.email, expires_delta=expiracion)
+        link = URLFRONT + "/forgot_password/" + access_token
+        return link
+    else: 
+        return jsonify({
+            "msg": "User does not exist"
+        }), 404
+
+@app.route("/new_password", methods=["POST"])
+#@jwt_required()
+def new_password():
+    password = request.json.get("password")
+    confirm_password = request.json.get("confirm_password")
+    if password==confirm_password:
+        user = User.filter_by(email=email).first()
+        pwr_hash = generate_password_hash(password, method='sha256')
+        user.password = pwr_hash
+        return jsonify({
+            msg: "Password updated successfully"
+        }), 201
 
 @app.route('/register', methods=['POST'])
 def register():
