@@ -7,7 +7,7 @@ class ExtrasUsuarios(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=True)
     actividad = db.Column(db.String(150))
-    fecha = db.Column(db.Integer, nullable=True)
+    dia = db.Column(db.Integer, nullable=True)
     tipo = db.Column(db.String(80))
     descripcion = db.Column(db.String(300))
     URLVideo = db.Column(db.String(200))
@@ -21,7 +21,7 @@ class ExtrasUsuarios(db.Model):
             "id": self.id,
             "userID": self.userID,
             "actividad": self.actividad,
-            "fecha": self.fecha,
+            "dia": self.dia,
             "tipo": self.tipo,
             "descripcion": self.descripcion,
             "URLVideo": self.URLVideo,
@@ -33,7 +33,7 @@ class TodoUsuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     actividad = db.Column(db.String(150))
-    fecha = db.Column(db.Integer, nullable=True)
+    dia = db.Column(db.Integer, nullable=True)
     done = db.Column(db.Boolean)
 
     def __repr__(self):
@@ -45,7 +45,7 @@ class TodoUsuario(db.Model):
             "userID": self.userID,
             # "userEmail": self.user.email,
             "actividad": self.actividad,
-            "fecha": self.fecha,
+            "dia": self.dia,
             "done": self.done
         }
 

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 787f9aa1d9bc
+Revision ID: ab92eb899c7b
 Revises: 
-Create Date: 2021-08-24 00:25:21.391203
+Create Date: 2021-08-29 16:57:22.762756
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '787f9aa1d9bc'
+revision = 'ab92eb899c7b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,9 +28,6 @@ def upgrade():
     sa.Column('photoURL', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('descripcionDesafio'),
-    sa.UniqueConstraint('feat1'),
-    sa.UniqueConstraint('feat2'),
-    sa.UniqueConstraint('feat3'),
     sa.UniqueConstraint('nombreDesafio'),
     sa.UniqueConstraint('photoURL')
     )
@@ -40,6 +37,7 @@ def upgrade():
     sa.Column('password', sa.String(length=9000), nullable=False),
     sa.Column('nombre', sa.String(length=80), nullable=False),
     sa.Column('desafio', sa.String(length=80), nullable=True),
+    sa.Column('duracion', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('dias',
@@ -53,7 +51,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userID', sa.Integer(), nullable=True),
     sa.Column('actividad', sa.String(length=150), nullable=True),
-    sa.Column('fecha', sa.Date(), nullable=True),
+    sa.Column('dia', sa.Integer(), nullable=True),
     sa.Column('tipo', sa.String(length=80), nullable=True),
     sa.Column('descripcion', sa.String(length=300), nullable=True),
     sa.Column('URLVideo', sa.String(length=200), nullable=True),
@@ -61,11 +59,12 @@ def upgrade():
     sa.ForeignKeyConstraint(['userID'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_extrasusuarios_userID'), 'extrasusuarios', ['userID'], unique=False)
     op.create_table('todousuario',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('userID', sa.Integer(), nullable=True),
     sa.Column('actividad', sa.String(length=150), nullable=True),
-    sa.Column('fecha', sa.Date(), nullable=True),
+    sa.Column('dia', sa.Integer(), nullable=True),
     sa.Column('done', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['userID'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -90,8 +89,7 @@ def upgrade():
     sa.Column('name', sa.String(length=80), nullable=False),
     sa.Column('idDia', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['idDia'], ['dias.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('name')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 
@@ -101,6 +99,7 @@ def downgrade():
     op.drop_table('templatetodo')
     op.drop_table('extras')
     op.drop_table('todousuario')
+    op.drop_index(op.f('ix_extrasusuarios_userID'), table_name='extrasusuarios')
     op.drop_table('extrasusuarios')
     op.drop_table('dias')
     op.drop_table('user')

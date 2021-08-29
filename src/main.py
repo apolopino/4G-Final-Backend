@@ -45,7 +45,7 @@ def sitemap():
 def post_todousuario():
     body = request.get_json()
     todousuario = TodoUsuario(
-        fecha=body['fecha'],
+        dia=body['dia'],
         done=body['done'],
         userID=body['userID'],
         actividad=body['actividad']
