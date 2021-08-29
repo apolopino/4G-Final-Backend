@@ -349,6 +349,21 @@ def register():
     return jsonify(response), 201
 #cuando creo un recurso el jsonify es 201
 
+# Endpoint para que un usuario setee su desafio
+@app.route('/setchallenge', methods=['PUT'])
+def setChallenge():
+    body = request.get_json()
+    idUser = body['userID']
+    usuario = User.query.filter_by(id=idUser).first()
+    usuario.desafio = body['desafio']
+    usuario.duracion = body['duracion']
+    db.session.commit()
+    response_body = {
+        "msg": "inscrito desafio"
+    }
+
+    return jsonify(response_body), 200
+
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
