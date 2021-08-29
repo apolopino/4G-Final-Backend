@@ -83,11 +83,11 @@ class User(db.Model):
 class Extras(db.Model):
     __tablename__ = 'extras'
     id = db.Column(db.Integer, primary_key=True)
-    actividad = db.Column(db.String(80), unique=True, nullable=False)
+    actividad = db.Column(db.String(80), unique=False, nullable=False)
     tipo = db.Column(db.String(80), nullable=False)
-    descripcion = db.Column(db.String(250), unique=True, nullable=False)
-    urlVideo = db.Column(db.String(250), unique=True, nullable=False)
-    urlFoto = db.Column(db.String(250), unique=True, nullable=False) 
+    descripcion = db.Column(db.String(250), unique=False, nullable=False)
+    urlVideo = db.Column(db.String(250), unique=False, nullable=False)
+    urlFoto = db.Column(db.String(250), unique=False, nullable=False) 
     dia = db.Column(db.ForeignKey('dias.id'), nullable=True)
     # dia_a_la_que_pertenece = db.relationship('Dias', backref="extras", lazy=True)
 
