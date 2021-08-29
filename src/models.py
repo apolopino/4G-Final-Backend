@@ -7,7 +7,7 @@ class ExtrasUsuarios(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=True)
     actividad = db.Column(db.String(150))
-    fecha = db.Column(db.Date)
+    fecha = db.Column(db.Integer, nullable=True)
     tipo = db.Column(db.String(80))
     descripcion = db.Column(db.String(300))
     URLVideo = db.Column(db.String(200))
@@ -33,7 +33,7 @@ class TodoUsuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     actividad = db.Column(db.String(150))
-    fecha = db.Column(db.Date)
+    fecha = db.Column(db.Integer, nullable=True)
     done = db.Column(db.Boolean)
 
     def __repr__(self):
@@ -56,6 +56,7 @@ class User(db.Model):
     password = db.Column(db.String(9000), unique=False, nullable=False)
     nombre = db.Column(db.String(80), nullable=False)
     desafio = db.Column(db.String(80), nullable=True)
+    duracion = db.Column(db.Integer, nullable=True)
     toDo_Usuario = db.relationship('TodoUsuario', lazy=True)
     extras_usuario = db.relationship('ExtrasUsuarios', backref='user', lazy=True)
 
@@ -68,6 +69,7 @@ class User(db.Model):
             "email": self.email,
             "nombre": self.nombre,
             "desafio": self.desafio,
+            "duracion": self.duracion,
             "to-do del usuario": self.getUserTodo(),
             "extras del usuario": self.getUserExtras()
         }
