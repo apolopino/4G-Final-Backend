@@ -51,7 +51,7 @@ def sitemap():
 def post_todousuario():
     body = request.get_json()
     todousuario = TodoUsuario(
-        fecha=body['fecha'],
+        dia=body['dia'],
         done=body['done'],
         userID=body['userID'],
         actividad=body['actividad']
@@ -93,6 +93,28 @@ def post_extras():
         "msg": "Hello, this is your POST /extras response "
     }
 
+    return jsonify(response_body), 200
+
+@app.route('/extras/<int:id>', methods=['GET'])
+def get_user_extras(id):
+    # extras = ExtrasUsuarios.query.filter_by(id = ExtrasUsuarios.userID).all()
+    # extras = ExtrasUsuarios.query.join(User).filter_by(id=User.id).all()
+    # extras = User.query.join(ExtrasUsuarios).filter_by(id = ExtrasUsuarios.userID)
+    extras = User.query.filter_by(id=id).all()
+    extras = extras[0].extras_usuario
+    extras = list(map(lambda x: x.serialize(), extras))
+    response_body = {
+        "userExtras": extras
+    }
+    return jsonify(response_body), 200
+
+@app.route('/userextras', methods = ['GET'])
+def get_extras_all():
+    extras = ExtrasUsuarios.query.all()
+    extras = list(map(lambda x: x.serialize(), extras))
+    response_body = {
+        "extras": extras
+    }
     return jsonify(response_body), 200
 
 @app.route('/extras', methods=['GET'])
@@ -366,6 +388,45 @@ def register():
     }
     return jsonify(response), 201
 #cuando creo un recurso el jsonify es 201
+
+# Endpoint para que un usuario setee su desafio
+@app.route('/setchallenge', methods=['PUT'])
+def setChallenge():
+    body = request.get_json()
+    idUser = body['userID']
+    usuario = User.query.filter_by(id=idUser).first()
+    usuario.desafio = body['desafio']
+    usuario.duracion = body['duracion']
+    db.session.commit()
+    toDos = body['to-do del usuario']
+    for item in toDos:
+        element = TodoUsuario(
+            actividad=item['name'],
+            dia=item['idDia'],
+            done=item['done'],
+            userID=item['userID']
+            )
+        db.session.add(element)
+        db.session.commit()
+    extras = body['extras del usuario']
+    
+    for item in extras:
+        elementExtra = ExtrasUsuarios(
+            userID=item['userID'],
+            actividad=item['actividad'],
+            dia=item['dia'],
+            tipo=item['tipo'],
+            descripcion=item['descripcion'],
+            URLVideo=item['urlVideo'],
+            URLFoto=item['urlFoto']       
+            )
+        db.session.add(elementExtra)
+        db.session.commit()
+    data = {
+        "user": usuario.serialize(),
+    } 
+
+    return jsonify(data), 200
 
 
 # this only runs if `$ python src/main.py` is executed
