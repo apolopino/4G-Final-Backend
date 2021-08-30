@@ -75,6 +75,19 @@ def get_todousuario():
     }
     return jsonify(response_body), 200
 
+@app.route('/todousuario/<int:id>', methods=['GET'])
+def get_user_todos(id):
+    # body = request.get_json()
+    # user = body['userID']
+
+    user = User.query.filter_by(id=id).first()
+    user = user.serialize()
+
+    listatodo = user['to-do del usuario']
+    
+    
+    return jsonify(listatodo), 200
+
 @app.route('/extras', methods=['POST'])
 #@jwt_required()
 def post_extras():
