@@ -368,9 +368,23 @@ def setChallenge():
             )
         db.session.add(element)
         db.session.commit()
+    extras = body['extras del usuario']
+    
+    for item in extras:
+        elementExtra = ExtrasUsuarios(
+            userID=item['userID'],
+            actividad=item['actividad'],
+            dia=item['dia'],
+            tipo=item['tipo'],
+            descripcion=item['descripcion'],
+            URLVideo=item['URLVideo'],
+            URLFoto=item['URLFoto']       
+            )
+        db.session.add(elementExtra)
+        db.session.commit()
 
     response_body = {
-        "msg": "inscrito desafio"
+        "msg": "desafio inscrito"
     }
 
     return jsonify(response_body), 200
