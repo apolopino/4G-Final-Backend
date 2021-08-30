@@ -358,6 +358,17 @@ def setChallenge():
     usuario.desafio = body['desafio']
     usuario.duracion = body['duracion']
     db.session.commit()
+    toDos = body['to-do del usuario']
+    for item in toDos:
+        element = TodoUsuario(
+            actividad=item['actividad'],
+            dia=item['dia'],
+            done=item['done'],
+            userID=item['userID']
+            )
+        db.session.add(element)
+        db.session.commit()
+
     response_body = {
         "msg": "inscrito desafio"
     }
