@@ -17,7 +17,10 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 #crea tokens, indicar una ruta que requiere de un token
 import datetime
 #nos permite dar tiempo a los tokens, es propio de python
-import hashlib
+#import hashlib
+#from six import ensure_binary
+#from hashlib import md5
+import secrets
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -299,8 +302,10 @@ def send_mail():
 #        link = URLFRONTEND + "/recuperacion/" + access_token
 #        return link
 #        h = hashlib.sha1(b"www.recursospython.com - Recursos Python")
-        cadena = (identity=user.email, expires_delta=expiracion)
-        h = hashlib.md5(b"cadena")
+#        cadena = 'user.email'
+#        h = hashlib.new("md5", "cadena")
+#        h = hashlib.md5(b"cadena")
+        h = secrets.token_urlsafe(16)
         link = URLFRONTEND + "/solicitudrecuperacion/" + h
         return link
     else: 
