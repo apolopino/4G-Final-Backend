@@ -317,6 +317,7 @@ def login():
 @app.route("/solicitudrecuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
+    print("email:",email)
     user = User.query.filter_by(email=email).first()
     expiracion = datetime.timedelta(days=1)
     if user is not None:
@@ -329,7 +330,9 @@ def send_mail():
 #        h = hashlib.md5(b"cadena")
         h = secrets.token_urlsafe(16)
         link = URLFRONTEND + "/solicitudrecuperacion/" + h
-        return link
+        return jsonify({
+            "link": link
+        }),200
     else: 
         return jsonify({
             "msg": "User does not exist"
