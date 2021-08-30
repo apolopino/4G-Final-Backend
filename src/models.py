@@ -101,7 +101,8 @@ class Extras(db.Model):
             "tipo": self.tipo,
             "descripcion": self.descripcion,
             "urlVideo": self.urlVideo,
-            "urlFoto": self.urlFoto
+            "urlFoto": self.urlFoto,
+            "dia": self.dia
         }
 
 class TemplateTodo(db.Model):

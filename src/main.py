@@ -361,8 +361,8 @@ def setChallenge():
     toDos = body['to-do del usuario']
     for item in toDos:
         element = TodoUsuario(
-            actividad=item['actividad'],
-            dia=item['dia'],
+            actividad=item['name'],
+            dia=item['idDia'],
             done=item['done'],
             userID=item['userID']
             )
@@ -377,17 +377,16 @@ def setChallenge():
             dia=item['dia'],
             tipo=item['tipo'],
             descripcion=item['descripcion'],
-            URLVideo=item['URLVideo'],
-            URLFoto=item['URLFoto']       
+            URLVideo=item['urlVideo'],
+            URLFoto=item['urlFoto']       
             )
         db.session.add(elementExtra)
         db.session.commit()
+    data = {
+        "user": usuario.serialize(),
+    } 
 
-    response_body = {
-        "msg": "desafio inscrito"
-    }
-
-    return jsonify(response_body), 200
+    return jsonify(data), 200
 
 
 # this only runs if `$ python src/main.py` is executed
