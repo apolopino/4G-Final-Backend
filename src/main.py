@@ -17,9 +17,9 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 #crea tokens, indicar una ruta que requiere de un token
 import datetime
 #nos permite dar tiempo a los tokens, es propio de python
-#import hashlib
-#from six import ensure_binary
-#from hashlib import md5
+#import hashlib // estan comentados pq no me funcionaron
+#from six import ensure_binary // estan comentados pq no me funcionaron
+#from hashlib import md5 // estan comentados pq no me funcionaron
 import secrets
 
 app = Flask(__name__)
@@ -330,6 +330,7 @@ def login():
 @app.route("/solicitudrecuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
+    print("email:",email)
     user = User.query.filter_by(email=email).first()
     expiracion = datetime.timedelta(days=1)
     if user is not None:
@@ -342,7 +343,9 @@ def send_mail():
 #        h = hashlib.md5(b"cadena")
         h = secrets.token_urlsafe(16)
         link = URLFRONTEND + "/solicitudrecuperacion/" + h
-        return link
+        return jsonify({
+            "link": link
+        }),200
     else: 
         return jsonify({
             "msg": "User does not exist"
@@ -351,15 +354,18 @@ def send_mail():
 @app.route("/nueva_password", methods=["POST"])
 #@jwt_required()
 def new_password():
-    password = request.json.get("password")
-    confirm_password = request.json.get("confirm_password")
-    if password==confirm_password:
-        user = User.filter_by(email=email).first()
-        pwr_hash = generate_password_hash(password, method='sha256')
-        user.password = pwr_hash
-        return jsonify({
-            msg: "Password updated successfully"
-        }), 201
+    body = request.get_json()
+    password = body['password']
+    mail = body['email']
+    user = User.query.filter_by(email = mail).first()
+    pwr_hash = generate_password_hash(password, method='sha256')
+    user.password = pwr_hash
+
+    db.session.commit()
+
+    return jsonify({
+        "msg": "Password updated successfully"
+    }), 201
 
 @app.route('/register', methods=['POST'])
 def register():
