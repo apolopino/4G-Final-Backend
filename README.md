@@ -7,6 +7,7 @@ pipenv shell
 - Instalar dependencias 
 ```
 pipenv install
+pipenv install Flask-Mail
 ```
 
 - Crear las migraciones
