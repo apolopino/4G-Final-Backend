@@ -3,6 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for
+from flask_mail import Mail, Message
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -26,12 +27,19 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'life.planner.web@gmail.com'
+app.config['MAIL_PASSWORD'] = 'czqlqkioaclcruoe'
+
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 setup_admin(app)
 app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with something else!
 jwt = JWTManager(app)
+mail = Mail(app)
 
 URLFRONTEND = "https://3000-chocolate-bat-k8s1td5r.ws-us16.gitpod.io"
 
@@ -325,6 +333,7 @@ def login():
 
     return jsonify(data), 200
 
+
 @app.route("/solicitudrecuperacion", methods=["POST"])
 def send_mail():
     email = request.json.get("email")
@@ -341,6 +350,9 @@ def send_mail():
 #        h = hashlib.md5(b"cadena")
         h = secrets.token_urlsafe(16)
         link = URLFRONTEND + "/solicitudrecuperacion/" + h
+        msg = Message("Hello", sender="life.planner.web@gmail.com", recipients=[email])
+        msg.body = "Link de recuperacion de contraseña: " + link 
+        mail.send(msg)
         return jsonify({
             "link": link
         }),200
