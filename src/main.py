@@ -86,6 +86,21 @@ def get_user_todos(id):
     
     return jsonify(listatodo), 200
 
+
+@app.route('/todousuario', methods=['PUT'])
+def put_user_todos():
+    body = request.get_json()
+    idtask = body['taskID']
+
+    task = TodoUsuario.query.filter_by(id=idtask).first()
+    task.done = True
+
+    db.session.commit() 
+    
+    return jsonify({
+        'msg': "record updated"
+    }), 201
+
 @app.route('/extras', methods=['POST'])
 #@jwt_required()
 def post_extras():
