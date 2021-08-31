@@ -60,14 +60,14 @@ def post_todousuario():
     body = request.get_json()
     todousuario = TodoUsuario(
         dia=body['dia'],
-        done=body['done'],
-        userID=body['userID'],
+        done=False,
+        userID=body['uid'],
         actividad=body['actividad']
         )
     db.session.add(todousuario)
     db.session.commit()
     response_body = {
-        "msg": "Hello, this is your POST /todousuario response "
+        "msg": "Record added"
     }
 
     return jsonify(response_body), 200
@@ -108,6 +108,25 @@ def put_user_todos():
     return jsonify({
         'msg': "record updated"
     }), 201
+
+# @app.route('/todousuario', methods=['POST'])
+# def post_user_todos():
+#     body = request.get_json()
+#     idDia = body['dia']
+
+#     userTodo = TodoUsuario()
+
+#     userTodo.actividad = body['actividad']
+#     userTodo.done = False
+#     userTodo.dia = idDia
+#     userTodo.userID = body['uid']
+
+#     db.session.commit() 
+    
+#     return jsonify({
+#         'msg': "record created"
+#     }), 200
+    
 
 @app.route('/extras', methods=['POST'])
 #@jwt_required()
