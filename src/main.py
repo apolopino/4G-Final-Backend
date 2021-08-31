@@ -77,8 +77,6 @@ def get_todousuario():
 
 @app.route('/todousuario/<int:id>', methods=['GET'])
 def get_user_todos(id):
-    # body = request.get_json()
-    # user = body['userID']
 
     user = User.query.filter_by(id=id).first()
     user = user.serialize()
