@@ -388,7 +388,7 @@ def send_mail():
         msg.body = "Link de recuperacion de contraseña: " + link 
         mail.send(msg)
         return jsonify({
-            "link": link
+            "link":"Forgot password link sent"
         }),200
     else: 
         return jsonify({
