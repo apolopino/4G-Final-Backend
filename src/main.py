@@ -41,7 +41,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with
 jwt = JWTManager(app)
 mail = Mail(app)
 
-URLFRONTEND = "https://3000-chocolate-bat-k8s1td5r.ws-us16.gitpod.io"
+URLFRONTEND = "https://3000-sapphire-gopher-466l8du5.ws-us16.gitpod.io/"
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
@@ -332,16 +332,16 @@ def login():
     password = request.json.get("password", None)
 
     if not email:
-        return jsonify({"msg":"Email required"}), 400
+        return jsonify({"msg":"Email requerido"}), 400
 
     if not password:
-        return jsonify({"msg":"Password required"}), 400
+        return jsonify({"msg":"Password requerida"}), 400
     
     user = User.query.filter_by(email=email).first()
     print(user)
 
     if not user:
-        return jsonify({"msg": "The email is not correct",
+        return jsonify({"msg": "El correo no es correcto",
         "status": 401
         
         }), 401
@@ -349,7 +349,7 @@ def login():
     # password=generate_password_hash(password, method='sha256')
 
     if not check_password_hash(user.password, password):
-         return jsonify({"msg": "The password is not correct",
+         return jsonify({"msg": "La contraseña no es correcta",
         "status": 401
         }), 400
 
@@ -388,11 +388,11 @@ def send_mail():
         msg.body = "Link de recuperacion de contraseña: " + link 
         mail.send(msg)
         return jsonify({
-            "link":"Forgot password link sent"
+            "link":"Hemos enviado el link de recuperacion a su mail"
         }),200
     else: 
         return jsonify({
-            "msg": "User does not exist"
+            "msg": "El usuario no existe"
         }), 404
 
 @app.route("/nueva_password", methods=["POST"])
@@ -408,7 +408,7 @@ def new_password():
     db.session.commit()
 
     return jsonify({
-        "msg": "Password updated successfully"
+        "msg": "Contraseña actualizada"
     }), 201
 
 @app.route('/register', methods=['POST'])
@@ -421,16 +421,16 @@ def register():
     nombre = request_data['nombre']
         
     if not email:
-        return "Email required", 401
+        return "Email requerido", 401
     if not nombre:
-        return "Nombre required", 401
+        return "Nombre requerido", 401
     if not password:
-        return "Password required", 401
+        return "Password requerida", 401
 
     
     email_query = User.query.filter_by(email=email).first()
     if email_query:
-        return "This email has been already taken", 401
+        return "Este correo ya existe", 401
     
     
     user = User()
@@ -445,7 +445,7 @@ def register():
     db.session.commit()
 
     response = {
-        "msg": "Added successfully",
+        "msg": "Añadido exitosamente",
         "nombre": nombre,
         "password": hashed_password
     }
@@ -455,6 +455,45 @@ def register():
 # Endpoint para que un usuario setee su desafio
 @app.route('/setchallenge', methods=['PUT'])
 def setChallenge():
+    body = request.get_json()
+    idUser = body['userID']
+    usuario = User.query.filter_by(id=idUser).first()
+    usuario.desafio = body['desafio']
+    usuario.duracion = body['duracion']
+    db.session.commit()
+    toDos = body['to-do del usuario']
+    for item in toDos:
+        element = TodoUsuario(
+            actividad=item['name'],
+            dia=item['idDia'],
+            done=item['done'],
+            userID=item['userID']
+            )
+        db.session.add(element)
+        db.session.commit()
+    extras = body['extras del usuario']
+    
+    for item in extras:
+        elementExtra = ExtrasUsuarios(
+            userID=item['userID'],
+            actividad=item['actividad'],
+            dia=item['dia'],
+            tipo=item['tipo'],
+            descripcion=item['descripcion'],
+            URLVideo=item['urlVideo'],
+            URLFoto=item['urlFoto']       
+            )
+        db.session.add(elementExtra)
+        db.session.commit()
+    data = {
+        "user": usuario.serialize(),
+    } 
+
+    return jsonify(data), 200
+
+# Endpoint para ingresar un desafio nuevo
+@app.route('/newChallenge', methods=['POST'])
+def newChallenge():
     body = request.get_json()
     idUser = body['userID']
     usuario = User.query.filter_by(id=idUser).first()
