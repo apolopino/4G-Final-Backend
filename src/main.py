@@ -41,7 +41,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with
 jwt = JWTManager(app)
 mail = Mail(app)
 
-URLFRONTEND = "https://3000-chocolate-bat-k8s1td5r.ws-us16.gitpod.io"
+URLFRONTEND = "https://4g-final-front.vercel.app"
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
