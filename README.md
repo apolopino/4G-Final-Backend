@@ -1,3 +1,19 @@
+## BACK-END LIFE PLANNER
+
+```
+Plataforma web para cultivar habitos y bienestar.
+```
+<p>
+ <img src="https://github.com/apolopino/4G-Final_FrontEnd/tree/develop/src/img/lifeplannergif.gif"/>
+</p>
+
+
+- App Deployed:
+```
+Front: https://4g-final-front.vercel.app/
+Back: https://final-4g-project.herokuapp.com
+```
+
 ## COMO INICIAR
 
 - Crear el entorno
@@ -31,7 +47,7 @@ npm run start
 - Para usar REQUEST.http
 
 ```
-- Cambiar la variable @host según la URl que nos entrega GITPOD
+- Cambiar la variable @host según la URL que nos entrega GITPOD
 - Crear usuario (Recordar que la Base de datos esta Vacia)
 
 ```
