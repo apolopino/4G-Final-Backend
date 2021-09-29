@@ -4,7 +4,7 @@
 Plataforma web para cultivar habitos y bienestar.
 ```
 <p>
- <img src="https://github.com/apolopino/4G-Final_FrontEnd/tree/develop/src/img/lifeplannergif.gif"/>
+ <img src="https://github.com/apolopino/4G-Final-Backend/blob/develop/lifeplanner-gif.gif"/>
 </p>
 
 
